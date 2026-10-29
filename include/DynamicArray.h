@@ -1,20 +1,29 @@
 #ifndef DYNAMICARRAY_H
 #define DYNAMICARRAY_H
 #include <iostream>
+#include <cassert>
 template <typename T>
+/*
+    DynamicArray<int> arr;
+    arr.push_back(2) -> arr[0]==2
+    arr.size() -> tra ve kich thuoc hien tai
+    arr.removeAt(0) -> xoa phan tu tai index =0
+    arr[100] -> lay gia tri tai index=100 trong arr
+    arr.pop_back() -> loai bo phan tu cuoi cua arr
+*/
 class DynamicArray {
     private:
     T* data;
     int currentSize;
     int capacity;
     public:
-    //Ham khoi tao, tu dong cap phat bo nho
+    //Ham khoi tao, no se tu dong cap bo nho cho mang.
     DynamicArray(int initCap=20){
         capacity=initCap;
         currentSize = 0;
         data= new T[capacity];
     }
-    //Ham thu hoi, tranh memory leak
+    //Ham thu hoi, no se tu dong xoa khi ra ngoai scope, tranh memory leak
     ~DynamicArray() {
         delete []data;
     }
@@ -35,6 +44,7 @@ class DynamicArray {
     }
     // Ham lay gia tri giong vector[i];
     T& operator[] (int index) {
+        assert(index >= 0 && index < currentSize); // tranh loi lay gia tri noai bien
         return data[index];
     }
     //Ham tra ve kich thuoc mang, const de mang khong thay doi gia tri bien duoc tra ve
@@ -49,6 +59,11 @@ class DynamicArray {
             data[i] = data[i+1];
         }
         //giam do lon cua ham
+        currentSize--;
+    }
+    void pop_back(){
+        if(currentSize<1) return;
+        data[currentSize-1]=T(); // dua phan tu cuoi ve gia tri mac dinh 
         currentSize--;
     }
 };
