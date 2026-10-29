@@ -5,11 +5,14 @@
 template <typename T>
 /*
     DynamicArray<int> arr;
-    arr.push_back(2) -> arr[0]==2
+    arr.push_back(2) -> arr[0]=2
     arr.size() -> tra ve kich thuoc hien tai
     arr.removeAt(0) -> xoa phan tu tai index =0
     arr[100] -> lay gia tri tai index=100 trong arr
     arr.pop_back() -> loai bo phan tu cuoi cua arr
+    arr.empty() -> tra ve true/false kiem tra arr co rong khong.
+    arr.begin()-> tra ve pointer o vi tri dau
+    arr.end() -> tra ve pointer sau phan tu cuoi
 */
 class DynamicArray {
     private:
@@ -66,5 +69,15 @@ class DynamicArray {
         data[currentSize-1]=T(); // dua phan tu cuoi ve gia tri mac dinh 
         currentSize--;
     }
+    
+    bool empty(){
+        return currentSize==0;
+    }
+
+    T* begin() { return data;}
+    const T* begin() const { return data;}
+
+    T* end() { return data+size;}
+    const T* end() const { return data+size;}
 };
 #endif
