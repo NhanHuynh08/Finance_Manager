@@ -25,5 +25,7 @@ public:
     string get_WalletID();
 
     string get_Description();
+
 };
+
 
