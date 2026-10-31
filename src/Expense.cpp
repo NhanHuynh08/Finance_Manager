@@ -3,7 +3,7 @@
 #include <string> // Thêm thư viện này
 #include "../include/DynamicArray.h"  
 #include "../include/ExpenseCategory.h" 
-#include "../include/ExpenseTransaction.h"
+#include "../include/Expense.h"
 #include "../include/Wallet.h"
 using namespace std;
 
