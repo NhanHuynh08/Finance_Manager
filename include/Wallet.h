@@ -27,6 +27,8 @@ public:
 
     // for display id and name  
     friend ostream& operator << (ostream& cout, wallet x); 
+    bool deduct_balance(double amount);
+    void add_balance(double amount);
 }; 
 // add a new wallet (input only name and balance) to list_wallet
 void add_wallet(string& name, double& balance, DynamicArray<wallet>& list_wallet); 
@@ -42,3 +44,4 @@ void edit_wallet(DynamicArray<wallet>& list_wallet);
 
 // display wallet management (include id, name, balance) 
 void display_wallet_mangement_to_edit(DynamicArray<wallet>& list_wallet);
+

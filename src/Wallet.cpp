@@ -33,8 +33,8 @@ ostream& operator << (ostream& cout, wallet x){
 
 // add new wallet into list_wallet
 void add_wallet(string& name, double& balance, DynamicArray<wallet>& list_wallet){ 
-    cout << "Tên ví bạn muốn thêm: "; cin >> name; 
-    cout << "Số tiền ban đầu của ví: "; cin >> balance;        
+    cout << "Wallet name: "; cin >> name; 
+    cout << "Initial wallet balance: "; cin >> balance;        
     string id_wallet = "WAL" + to_string(list_wallet.size() + 1); 
     wallet new_wallet(id_wallet, name, balance); 
     list_wallet.push_back(new_wallet); 
@@ -49,35 +49,50 @@ void display_wallet_UI(DynamicArray<wallet>& list_wallet){
 
 // display wallet management (include id, name, balance) 
 void display_wallet_mangement_to_edit(DynamicArray<wallet>& list_wallet){ 
-    cout << "--- QUẢN LÝ VÍ TIỀN ---\n"; 
+    cout << "--- WALLET MAGANEGEMENT ---\n"; 
     for (int i = 0; i < list_wallet.size(); i++){ 
         cout << '[' + (i+1) << ']'
-            << " Mã ví: " << list_wallet[i].get_id() 
-            << ", Tên: " << list_wallet[i].get_name() 
-            << ", Số dư: " << list_wallet[i].get_balance(); 
+            << " WalletID: " << list_wallet[i].get_id() 
+            << ", WalletName: " << list_wallet[i].get_name() 
+            << ", WalletBalance: " << list_wallet[i].get_balance(); 
         cout << "\n"; 
     }
-    cout << "Nhập STT ví cần sửa/xóa (hoặc 0 để quay lại): "; 
+    cout << "Enter wallet number to edit (or 0 to go back): "; 
 }
 
 // edit name of wallet 
 void edit_wallet(DynamicArray<wallet>& list_wallet){ 
     if (list_wallet.size() == 0){ 
-        cout << "Danh sách ví trống, hãy tạo ví mới của bạn\n";
+        cout << "Wallet list is empty. Please create a new wallet: ";
         return; 
     }
     display_wallet_mangement_to_edit(list_wallet); 
     int stt = -1; cin >> stt;
     if (stt == 0) return; 
     while(stt > list_wallet.size()){ 
-        cout << "Số thứ tự không thỏa mãn, yêu cầu nhập lại: "; 
+        cout << "Invalid Number, please try again: "; 
         cin >> stt; 
     }
     cin.ignore(numeric_limits<streamsize>::max(),'\n'); 
-    cout << "Tên mới: "; 
+    cout << "New Name: "; 
     string new_name; 
     getline(cin, new_name);
     list_wallet[stt - 1].set_name(new_name); 
-    cout << "Đã cập nhật thành công. \n";
+    cout << "Successfully updated. \n";
     return; 
+}
+
+bool wallet::deduct_balance(double amount) {
+    if (amount <= 0 || balance < amount) {
+        return false;
+    }
+
+    balance -= amount;
+    return true;
+}
+
+void wallet::add_balance(double amount) {
+    if (amount > 0) {
+        balance += amount;
+    }
 }
