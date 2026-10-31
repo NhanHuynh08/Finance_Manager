@@ -2,7 +2,7 @@
 #define CATEGORY_H
 #include <iostream>
 #include <string> // Thêm thư viện này
-#include "../../include/DynamicArray.h"  
+#include "DynamicArray.h"  
 using namespace std;
 
 class CategoryManager {
