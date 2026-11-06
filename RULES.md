@@ -1,0 +1,2 @@
+- Do not add/edit/delete public headers without permission from the leader
+- All the code of pull requests need to be explained before beging merged
