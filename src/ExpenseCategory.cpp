@@ -1,11 +1,15 @@
-#include "../../include/Expense/ExpenseCategory.h"  
+#include "ExpenseCategory.h"  
 #include <iostream>
 using namespace std;
 
 // Constructor
-
-CategoryManager::CategoryManager(){
-
+CategoryManager::CategoryManager() {
+    addCategory("CAT01", "Food");
+    addCategory("CAT02", "Transportation");
+    addCategory("CAT03", "Shopping");
+    addCategory("CAT04", "Education");
+    addCategory("CAT05", "Entertainment");
+    addCategory("CAT06", "Other");
 }
 
 bool CategoryManager::isDuplicateID(string id) {
@@ -27,7 +31,6 @@ int CategoryManager::findCategoryByID(string id) {
     
 bool CategoryManager::addCategory(string id, string name) {
         if (isDuplicateID(id)) {
-            cout << "Category ID already exists!\n";
             return false;
         }
 
@@ -38,7 +41,7 @@ bool CategoryManager::addCategory(string id, string name) {
 
         categories.push_back({id, name});
 
-        cout << "Category added successfully!\n";
+        "Category added successfully!\n";
         return true;
     }
 
