@@ -1,7 +1,7 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -I include
+CXXFLAGS += -Iinclude
 
-SRCS = $(wildcard src/**/*.cpp src/*.cpp)
+SRCS = $(wildcard src/*.cpp)
 TARGET = app.out
 
 all: $(TARGET)
