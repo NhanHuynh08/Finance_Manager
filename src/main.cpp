@@ -3,9 +3,9 @@
 
 using namespace std;
 int main() {
-    CategoryManager categoryList;
-    TransactionManager transactionList;
-    WalletManager walletList;
+    CategoryManager CategoryManager;
+    TransactionManager TransactionManager;
+    WalletManager WalletManager;
     cout << "Bai tap lon CS160" << endl;
     return 0;
 }

@@ -9,16 +9,17 @@
 
 class ConsoleUI {
 private:
-    void printTitle();
+    static void clrscr();
+    static void printTitle();
 public:
-    void displayDashBoard(DynamicArray<Wallet>& list_wallet);
+    static void displayDashBoard();
 
     // Wallet -> Category -> Transaction information -> Transaction.cpp
-    void transactionManagementMenu(DynamicArray<Wallet>& list_wallet, CategoryManager& categorySection, int type);
+    static void transactionManagementMenu(int type);
 
     // Edit wallet name, delete wallet, add new wallet
-    void walletManagementMenu(DynamicArray<Wallet>& list_wallet);
+    static void walletManagementMenu();
 
     // Edit category name, delete category, add new category
-    void categoryManagementMenu(CategoryManager& categorySection);
+    static void categoryManagementMenu(int type);
 };
