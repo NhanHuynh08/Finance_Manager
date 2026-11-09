@@ -22,10 +22,10 @@ private:
     //bool accessData();
 public:
     TransactionManager();
-    // Add a new transaction
-    bool addTransaction(string& id, string& wallet_id, string& category_id, double& amount, Date& date, string& note, int type);
+    // Add a new transaction (update wallet, write log of transaction)
+    bool addTransaction(string& wallet_id, string& category_id, double& amount, Date& date, string& note, int type);
 
-    // Query all transactions
+    // Query all transactions (store results in variable transactions)
     bool getAllTransaction(DynamicArray<Transaction>& transactions, int type, int& size);
 
     //Recurring transactions

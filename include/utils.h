@@ -4,6 +4,7 @@ struct Date {
 }; //Tran Tra Khoi Nguyen
 
 template <typename T>
+class DynamicArray {
 /*
     DynamicArray<int> arr;
     arr.push_back(2) -> arr[0]=2
@@ -15,5 +16,4 @@ template <typename T>
     arr.begin()-> tra ve pointer o vi tri dau
     arr.end() -> tra ve pointer sau phan tu cuoi
 */
-class DynamicArray {
-};
+}; //Huynh Nghia Nhan

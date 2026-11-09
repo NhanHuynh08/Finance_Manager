@@ -19,13 +19,13 @@ private:
 public:
 	CategoryManager();
 
-    // Add a new category
+    // Add a new category 
     bool addCategory(string& name, int type);
     // Delete a category
     bool deleteCategory(string& id, int type);
     // Edit a category name
     bool editCategory(string& id, string& newName, int type);
 
-    // Query all categories of a specific type (expense or income) up to date
+    // Query all categories of a specific type (expense or income) up to date (store results in variable categories)
     bool getAllCategories(DynamicArray<Category>& categories, int type, int& size);
 };

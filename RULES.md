@@ -1,3 +1,4 @@
 - Do not add/edit/delete public headers, files without permission from the leader
 - All pull requests need to be explained before being merged
 - Contact the person responsible for the function (commently named) if minor conflict happens
+- Return true if function executed successfully, else false

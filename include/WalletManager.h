@@ -23,7 +23,10 @@ public:
     // Edit a wallet name
     bool editWallet(string& id, string& newName);
 
-    //Query all wallets
+    // Update balance (amount can be negative) (return false if not enough money)
+    bool updateBalance(string& wallet_id, double amount);
+
+    // Query all wallets
     bool getAllWallet(DynamicArray<Wallet>& wallets, int& size);
 }; 
 

@@ -1,6 +1,7 @@
-#ifndef BinaryIO.h
-#define BinaryIO.h
+#pragma once
 #include <iostream>
 #include <fstream>
 
-#endif 
+namespace Binary {
+    //Permit Nghia Nhan to edit this public header
+}
