@@ -4,27 +4,28 @@
 #include "utils.h" 
 using namespace std; 
 
-struct Wallet {
-    string id; 
+class Wallet {
+public:
     string name; 
     double balance = 0.0; 
+    string id;
 };
-
 class WalletManager { 
 private:
-    DynamicArray<Wallet> walletData;
+    DynamicArray<Wallet> WalletData;
+    //bool accessData();
 public:
     WalletManager();
 
     // Add a new wallet
-    bool addWallet(string& name, double balance);
+    bool addWallet(const string& name, const double balance);
     // Delete a wallet
-    bool deleteWallet(string& id);
+    bool deleteWallet(const string& id);
     // Edit a wallet name
-    bool editWallet(string& id, string& newName);
+    bool renameWallet(const string& id, const string& newName);
 
-    // Update balance (amount can be negative) (return false if not enough money)
-    bool updateBalance(string& wallet_id, double amount);
+    // Update balance by amount
+    bool updateBalance(const string& wallet_id, const double amount);
 
     // Query all wallets
     bool getAllWallet(DynamicArray<Wallet>& wallets, int& size);

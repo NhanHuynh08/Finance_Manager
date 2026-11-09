@@ -4,28 +4,28 @@
 #include "utils.h"
 using namespace std;
 
-struct Category {
+class Category {
+public:
     string id;
     string name;
-}; 
-
+    double amount;
+    int type;
+};
 class CategoryManager {
 private:
-    DynamicArray<Category> categoryData;
-    // Check if a category ID already exists
-    bool isDuplicateID(string& id);
-
     //bool accessData();
 public:
 	CategoryManager();
 
     // Add a new category 
-    bool addCategory(string& name, int type);
+    bool addCategory(const string& name, int type);
     // Delete a category
-    bool deleteCategory(string& id, int type);
+    bool deleteCategory(const string& id, int type);
     // Edit a category name
-    bool editCategory(string& id, string& newName, int type);
+    bool renameCategory(const string& id, const string& newName, int type);
 
+    // Update amount of money of a category
+    bool updateCategory(const string& id, const double amount, int type);
     // Query all categories of a specific type (expense or income) up to date (store results in variable categories)
     bool getAllCategories(DynamicArray<Category>& categories, int type, int& size);
 };
