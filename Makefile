@@ -1,8 +1,8 @@
 CXX = g++
-CXXFLAGS += -Iinclude
+CXXFLAGS += -Wall -Wextra -std=c++17 -I.
 
 SRCS = $(wildcard src/*.cpp)
-TARGET = app.out
+TARGET = app.exe
 
 all: $(TARGET)
 
