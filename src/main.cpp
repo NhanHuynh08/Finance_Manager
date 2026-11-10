@@ -1,12 +1,11 @@
-#include "../include/UI/components.h"
-#include "../include/UI/screens.h"
-#include "../include/ExpenseCategory.h"
+#include "include/ConsoleUI.h"
 #include <iostream>
 
 using namespace std;
 int main() {
-    CategoryManager categorySection;
-    cout<<"Bai tap lon CS160" << endl;
-    dashBoard(10000);
+    CategoryManager CategoryManager;
+    TransactionManager TransactionManager;
+    WalletManager WalletManager;
+    cout << "Bai tap lon CS160" << endl;
     return 0;
 }
