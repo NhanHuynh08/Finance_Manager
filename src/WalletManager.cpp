@@ -1,5 +1,25 @@
 #include "include/WalletManager.h" 
 
+bool WalletManager::loadWallets(){  // picking information from data/Wallet.bin 
+    // loading with parameter filePath, and DynamicArray<Wallet> WalletData
+
+}
+
+bool WalletManager::saveWallets(){ // saving information to data/Wallet.bon (we will truncate <overwrite>)
+    // saving with parameter filePath, and DynamicArray<Wallet> WalletData
+
+}
+
+WalletManager::WalletManager(const string& Path){ // load data to WalletManager each call (run app)
+    filePath = Path; 
+    bool load = loadWallets(); 
+    if (!load || WalletData.size() == 0){ 
+        addWallet("Ngân hàng MB Bank", 1000000);  // auto having this pointer 
+        addWallet("Ví cá nhân", 500000);  
+        saveWallets();
+    }
+}
+
 string WalletManager::generateID(){ 
     int max_count = 0; 
     for (int i = 0; i < WalletData.size(); i++){ 
@@ -23,7 +43,8 @@ bool WalletManager::addWallet(const string& name, const double balance){
     w.id = this->generateID(); 
     w.balance = balance; 
     WalletData.push_back(w); 
-    // save or not 
+    // save data 
+    saveWallets();  // auto having this (WalletManager) pointer
     return true; 
 }
 
@@ -32,7 +53,7 @@ bool WalletManager::deleteWallet(const string& id){
     for (int i = 0; i < WalletData.size(); i++){ 
         if (id == WalletData[i].id){ 
             WalletData.removeAt(i); 
-            // save data or not 
+            saveWallets(); 
             return true; 
         }
     }
@@ -44,7 +65,7 @@ bool WalletManager::renameWallet(const string& id, const string& newName){ // ad
     for (int i = 0; i < WalletData.size(); i++){ 
         if (id == WalletData[i].id){ 
             WalletData[i].name = newName; 
-            // save data or not 
+            saveWallets(); 
             return true; 
         }
     }
@@ -56,6 +77,7 @@ bool WalletManager::updateBalance(const string& wallet_id, const double amount){
         if (wallet_id == WalletData[i].id){ 
             // balance > 0; 
             WalletData[i].balance = amount; 
+            saveWallets(); 
             return true; 
         }
     }
