@@ -8,8 +8,7 @@ struct Date {
     int year;
 
     Date(int d, int m, int y) : day(d), month(m), year(y) {}
-};
- //Huynh Nghia Nhan
+}; //Tran Tra Khoi Nguyen
 template <typename T>
 class DynamicArray {
     private:
@@ -66,4 +65,4 @@ class DynamicArray {
 
     T* end() { return data+size;}
     const T* end() const { return data+size;}
-};
+}; //Huynh Nghia Nhan
