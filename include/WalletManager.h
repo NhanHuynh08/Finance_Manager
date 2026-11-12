@@ -14,6 +14,7 @@ class WalletManager {
 private:
     DynamicArray<Wallet> WalletData;
     //bool accessData();
+    string generateID(); // auto having pointer this 
 public:
     WalletManager();
 
