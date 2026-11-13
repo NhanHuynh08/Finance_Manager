@@ -5,14 +5,16 @@
 #include "TransactionManager.h"
 #include "utils.h"
 #include <iostream>
+#include <string>
 
 
 class ConsoleUI {
 private:
     static void clrscr();
-    static void printTitle();
+    void printTitle(std::string& title);
+    void printNavigationMenu(DynamicArray<std::string>& choices);
 public:
-    static void displayDashBoard();
+    void displayDashBoard();
 
     // Wallet -> Category -> Transaction information -> Transaction.cpp
     static void transactionManagementMenu(int type);
