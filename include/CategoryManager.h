@@ -5,12 +5,11 @@
 using namespace std;
 
 class Category {
-private:
-    string id;
 public:
     string name;
     double amount;
     int type;
+    string id;
     
     Category() : id(""), name(""), amount(0), type(0) {}
 
@@ -18,7 +17,6 @@ public:
     Category(const string& id, const string& name, int type, double amount = 0)
         : id(id), name(name), amount(amount), type(type) {}
 
-    string getID() const { return id; }
 };
 class CategoryManager {
 private:
@@ -34,10 +32,10 @@ public:
     bool isDuplicateID(const string& name) const;
 
     void generate_ID(const string& name, Category &s);
-    int findIndex(const string& name, int type) const;
+    int findIndex(const string& id, int type) const;
 
     // Add a new category 
-    bool addCategory(const string& name, const int type);
+    bool addCategory(const string& id, const int type);
     
     // Delete a category
     bool deleteCategory(const string& id, const int type);

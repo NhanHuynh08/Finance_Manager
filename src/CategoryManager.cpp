@@ -21,9 +21,9 @@ bool CategoryManager::addCategory(const string& name, const int type) {
     return true;
 }
 
-int CategoryManager::findIndex(const string& name, int type) const {
+int CategoryManager::findIndex(const string& id, int type) const {
     for (int i = 0; i < count; i++) {
-        if (categories[i].name == name && categories[i].type == type) {
+        if (categories[i].id == id && categories[i].type == type) {
             return i;
         }
     }
@@ -32,8 +32,8 @@ int CategoryManager::findIndex(const string& name, int type) const {
 // Truy index theo ten
     
     // Delete a category
-bool CategoryManager::deleteCategory(const string& name, const int type) {
-    int index = findIndex(name, type);
+bool CategoryManager::deleteCategory(const string& id, const int type) {
+    int index = findIndex(id, type);
     if (index == -1) return false;
 
     for (int i = index; i < count - 1; i++) {
@@ -44,8 +44,8 @@ bool CategoryManager::deleteCategory(const string& name, const int type) {
 }
 
     // Edit a category name
-bool CategoryManager::renameCategory(const string& oldname,const string& newName, const int type){
-    int index = findIndex(oldname, type);
+bool CategoryManager::renameCategory(const string& id,const string& newName, const int type){
+    int index = findIndex(id, type);
     if (index == -1) return false;
     if (findIndex(newName, type) != -1) return false;
     categories[index].name = newName;
@@ -53,11 +53,11 @@ bool CategoryManager::renameCategory(const string& oldname,const string& newName
 }
 
     // Nguoi dung nhap Nam hoac id (nay private ma nhi), nay co gi sua sau
-bool CategoryManager::updateCategory(const string& Name, const double amount, const int type){
-    if (findIndex(Name, type) == -1){
+bool CategoryManager::updateCategory(const string& id, const double amount, const int type){
+    if (findIndex(id, type) == -1){
         return false;
     }
-    int Index = findIndex(Name, type);
+    int Index = findIndex(id, type);
     categories[Index].amount = amount;
     return true;
 
