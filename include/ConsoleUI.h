@@ -7,17 +7,24 @@
 #include <iostream>
 #include <string>
 
-
+const int width = 100;
 class ConsoleUI {
 private:
     static void clrscr();
     void printTitle(std::string& title);
-    void printNavigationMenu(DynamicArray<std::string>& choices);
+    void printWalletList(DynamicArray<Wallet>& wallet_list);
+    void printCategoryList(DynamicArray<Category>& category_list);
+    int userChoice(DynamicArray<std::string>& choices);
+
+    // Transaction features
+    int addTransaction(int type);
+    int transactionHistory(int type);
+
 public:
-    void displayDashBoard();
+    int displayDashBoard();
 
     // Wallet -> Category -> Transaction information -> Transaction.cpp
-    static void transactionManagementMenu(int type);
+    int transactionManagementMenu(int type);
 
     // Edit wallet name, delete wallet, add new wallet
     static void walletManagementMenu();
