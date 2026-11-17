@@ -20,19 +20,18 @@ public:
 };
 class CategoryManager {
 private:
-    Category categories[1000]; // luu id
-    int count; // dem data chua trong mang
-    // Mang chua data
-    int nextID;
+    DynamicArray<Category> INCcategories;
+    DynamicArray<Category> EXPcategories;  // Nay data nen private
+    int nextID;                         // bộ đếm để sinh ID
 
-    string generateID(int type); 
-    //bool accessData();
+    string generateID(int type);
 public:
+
 	CategoryManager();
-    bool isDuplicateID(const string& name) const;
+    bool isDuplicateID(const string& id, int type);
 
     void generate_ID(const string& name, Category &s);
-    int findIndex(const string& id, int type) const;
+    int findIndex(const string& id, int type);
 
     // Add a new category 
     bool addCategory(const string& id, const int type);
@@ -45,7 +44,7 @@ public:
     // Update amount of money of a category
     bool updateCategory(const string& id, const double amount, const int type);
     // Query all categories of a specific type (expense or income) up to date (store results in variable categories)
-    bool getAllCategories(DynamicArray<Category>& categories, const int type, int& size);
+    bool getAllCategories(DynamicArray<Category>& categories_public, const int type, int &size);
 };
 
 
