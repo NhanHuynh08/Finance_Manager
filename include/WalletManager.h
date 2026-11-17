@@ -2,7 +2,6 @@
 #pragma once
 #include <string>
 #include "utils.h" 
-#include "BinaryIO.h"
 using namespace std; 
 
 class Wallet {
@@ -14,13 +13,9 @@ public:
 class WalletManager { 
 private:
     DynamicArray<Wallet> WalletData;
-    string filePath; 
     //bool accessData();
-    bool saveWallets(); // auto having this pointer 
-    bool loadWallets(); 
-    string generateID(); // auto having pointer this 
 public:
-    WalletManager(const string& Path = "./data/Wallet.bin"); // having WalletDate (auto having pointer this)
+    WalletManager();
 
     // Add a new wallet
     bool addWallet(const string& name, const double balance);
