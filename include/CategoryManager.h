@@ -20,15 +20,23 @@ public:
 };
 class CategoryManager {
 private:
+<<<<<<< HEAD
     DynamicArray<Category> INCcategories;
     DynamicArray<Category> EXPcategories;  // Nay data nen private
+=======
+    DynamicArray<Category> categories;  // mảng động, tự quản lý kích thước
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
     int nextID;                         // bộ đếm để sinh ID
 
     string generateID(int type);
 public:
 
 	CategoryManager();
+<<<<<<< HEAD
     bool isDuplicateID(const string& id, int type);
+=======
+    bool isDuplicateID(const string& id);
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
 
     void generate_ID(const string& name, Category &s);
     int findIndex(const string& id, int type);
