@@ -21,8 +21,12 @@ public:
 class CategoryManager {
 private:
 <<<<<<< HEAD
+<<<<<<< HEAD
     DynamicArray<Category> INCcategories;
     DynamicArray<Category> EXPcategories;  // Nay data nen private
+=======
+    DynamicArray<Category> categories;  // mảng động, tự quản lý kích thước
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
 =======
     DynamicArray<Category> categories;  // mảng động, tự quản lý kích thước
 >>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
@@ -33,7 +37,11 @@ public:
 
 	CategoryManager();
 <<<<<<< HEAD
+<<<<<<< HEAD
     bool isDuplicateID(const string& id, int type);
+=======
+    bool isDuplicateID(const string& id);
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
 =======
     bool isDuplicateID(const string& id);
 >>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121

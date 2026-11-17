@@ -1,7 +1,10 @@
 #include "include/CategoryManager.h"
 #include "include/utils.h"
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <iostream>
+=======
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
 =======
 >>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
 
@@ -14,6 +17,7 @@ string CategoryManager::generateID(int type) {
     return prefix + num;                           // vd: "EXP003"
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 bool CategoryManager::isDuplicateID(const string& id, int type) {
     auto& list = (type == 0) ? EXPcategories : INCcategories;
@@ -50,6 +54,15 @@ bool CategoryManager::isDuplicateID(const string& id) {
     return false;
 }
 
+=======
+bool CategoryManager::isDuplicateID(const string& id) {
+    for (int i = 0; i < categories.size(); i++){
+        if (categories[i].id == id) return true;
+    }
+    return false;
+}
+
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
 int CategoryManager::findIndex(const string& id, int type) {
     for (int i = 0; i < categories.size(); i++) {
         if (categories[i].id == id) { // Sao bao loi o day v 
@@ -67,6 +80,9 @@ bool CategoryManager::addCategory(const string& name, const int type) {
     return true;
 }
 
+<<<<<<< HEAD
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
+=======
 >>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
 
 
@@ -75,14 +91,20 @@ bool CategoryManager::deleteCategory(const string& id, const int type) {
     if (index == -1) return false;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     auto& list = (type == 0) ? EXPcategories : INCcategories;
     list.removeAt(index);
 
 =======
+=======
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
     for (int i = index; i < categories.size() - 1; i++) {
         categories[i] = categories[i + 1];
     }
     categories.pop_back();
+<<<<<<< HEAD
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
+=======
 >>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
     return true;
 }
@@ -92,9 +114,12 @@ bool CategoryManager::renameCategory(const string& id, const string& newName, co
     int index = findIndex(id, type);
     if (index == -1) return false;
 <<<<<<< HEAD
+<<<<<<< HEAD
     auto& list = (type == 0) ? EXPcategories : INCcategories;
     list[index].name = newName;
 =======
+=======
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
     categories[index].name = newName;
 >>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
     return true;
@@ -115,10 +140,16 @@ bool CategoryManager::updateCategory(const string& id, const double amount, cons
 bool CategoryManager::getAllCategories(DynamicArray<Category>& categories_public, const int type, int& size) {
     size = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
     auto& list = (type == 0) ? EXPcategories : INCcategories;
     for (int i = 0; i < list.size(); i++) {
         if (list[i].type == type) {
             categories_public.push_back(list[i]);
+=======
+    for (int i = 0; i < categories.size(); i++) {
+        if (categories[i].type == type) {
+            categories_public.push_back(categories[i]);
+>>>>>>> e6ba1aa84ac0df57511346e702dcbddf29388121
 =======
     for (int i = 0; i < categories.size(); i++) {
         if (categories[i].type == type) {
