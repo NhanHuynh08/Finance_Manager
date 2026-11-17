@@ -1,7 +1,5 @@
 #pragma once
-#include <cassert> 
-
-//Tran Tra Khoi Nguyen
+#include <cassert>
 struct Date { 
     int day;
     int month;
@@ -65,10 +63,4 @@ class DynamicArray {
 
     T* end() { return data+size;}
     const T* end() const { return data+size;}
-    void clear(){
-        delete [] data;
-        capacity=20;
-        currentSize=0;
-        data=new T[capacity];
-    }
 }; //Huynh Nghia Nhan
