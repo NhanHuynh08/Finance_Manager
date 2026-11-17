@@ -20,7 +20,7 @@ void printCategoryList(DynamicArray<Category>& category_list) {
     using namespace std;
     cout << "Category list:" << '\n';
     for (int i=0; i<category_list.size(); i++) {
-        std::cout << "   " << i+1 << ". " << category_list[i].name << '\n';
+        std::cout << "   " << i+1 << ". " << category_list[i].name << ": " << category_list[i].amount << '\n';
     }
     return;
 }
@@ -54,7 +54,7 @@ int addTransaction(int type) {
     DynamicArray<Category> category_list;
     CategoryManager.getAllCategories(category_list, type, n);
     DynamicArray<string> choices;
-    choices.push_back("Return to transaction management menu");
+    choices.push_back("Return to transaction menu");
     choices.push_back("Return to dashboard");
     //screen
     printWalletList(wallet_list);
@@ -95,13 +95,131 @@ int transactionHistory(int type) {
     DynamicArray<Transaction> transaction_list; int n{};
     TransactionManager.getAllTransaction(transaction_list, type, n);
     DynamicArray<string> choices;
-    choices.push_back("Return to transaction management menu");
+    choices.push_back("Return to transaction menu");
     choices.push_back("Return to dashboard");
 
     for (int i=0; i<transaction_list.size(); i++) {
         transaction_list[i].date.displayDate(); 
         std::cout << ": " << transaction_list[i].amount << '\n'
                   << "Note: " << transaction_list[i].note << '\n';
+    }
+    return userChoice(choices);
+}
+// Wallet features
+int newWallet() {
+    DynamicArray<std::string> choices;
+    choices.push_back("Return to wallet menu");
+    choices.push_back("Return to dashboard");
+    using namespace std;
+    WalletManager WalletManager;
+    std::string wallet_name{};
+    double balance{};
+    cout << "Enter new wallet name: ";
+    getline(cin, wallet_name);
+    cout << "Enter wallet balance: ";
+    cin >> balance;
+    WalletManager.addWallet(wallet_name, balance);
+    return userChoice(choices);
+}
+int deleteWallet(DynamicArray<Wallet>& wallet_list) {
+    DynamicArray<std::string> choices;
+    choices.push_back("Return to wallet menu");
+    choices.push_back("Return to dashboard");
+    using namespace std;
+    WalletManager WalletManager;
+    int choice{};
+    cout << "Enter wallet index to delete: ";
+    while (true) {
+        cin >> choice;
+        if (choice <= wallet_list.size() && choice > 0) {
+            WalletManager.deleteWallet(wallet_list[choice-1].id);
+            break;
+        }
+        else {
+            cout << "Invalid index, please retry: ";
+        }
+    }
+    return userChoice(choices);
+}
+int renameWallet(DynamicArray<Wallet>& wallet_list) {
+    DynamicArray<std::string> choices;
+    choices.push_back("Return to wallet menu");
+    choices.push_back("Return to dashboard");
+    using namespace std;
+    WalletManager WalletManager;
+    int choice{};
+    cout << "Enter wallet index to rename: ";
+    while (true) {
+        cin >> choice;
+        if (choice <= wallet_list.size() && choice > 0) {
+            std::string new_name{};
+            cout << "Rename " << wallet_list[choice-1].name << " to: ";
+            getline(cin, new_name);
+            WalletManager.renameWallet(wallet_list[choice-1].id, new_name);
+            break;
+        }
+        else {
+            cout << "Invalid index, please retry: ";
+        }
+    }
+    return userChoice(choices);
+}
+// Category features
+int newCategory(int type) {
+    DynamicArray<std::string> choices;
+    choices.push_back("Return to category menu");
+    choices.push_back("Return to dashboard");
+    using namespace std;
+    CategoryManager CategoryManager;
+    std::string category_name{};
+    std::string category_type = (type==1) ? "income source" : "expense category";
+    cout << "Enter new " << category_type << " name: ";
+    getline(cin, category_name);
+    CategoryManager.addCategory(category_name, type);
+    return userChoice(choices);
+}
+int deleteCategory(DynamicArray<Category>& category_list, int type) {
+    DynamicArray<std::string> choices;
+    choices.push_back("Return to category menu");
+    choices.push_back("Return to dashboard");
+    using namespace std;
+    CategoryManager CategoryManager;
+    int choice{};
+    std::string category_type = (type==1) ? "income source" : "expense category";
+    cout << "Enter " << category_type << " index to delete: ";
+    while (true) {
+        cin >> choice;
+        if (choice <= category_list.size() && choice > 0) {
+            CategoryManager.deleteCategory(category_list[choice-1].id, type);
+            break;
+        }
+        else {
+            cout << "Invalid index, please retry: ";
+        }
+    }
+    return userChoice(choices);
+}
+int renameWallet(DynamicArray<Category>& category_list, int type) {
+    DynamicArray<std::string> choices;
+    choices.push_back("Return to category menu");
+    choices.push_back("Return to dashboard");
+    using namespace std;
+    CategoryManager CategoryManager;
+    int choice{};
+    std::string category_type = (type==1) ? "income source" : "expense category";
+    cout << "Enter " << category_type << " index to rename: ";
+    while (true) {
+        cin >> choice;
+        if (choice <= category_list.size() && choice > 0) {
+            std::string new_name;
+            cout << "Enter " << category_list[choice-1].name << " new name: ";
+            getline(cin, new_name);
+            CategoryManager.renameCategory(category_list[choice-1].id, new_name, type);
+            break;
+        }
+        else {
+            cout << "Invalid index, please retry: ";
+        }
     }
     return userChoice(choices);
 }
@@ -145,6 +263,45 @@ int ConsoleUI::transactionManagementMenu(int type) {
     printTitle(title);
     std::cout << "Total balance: " << total_balance << '\n';
     printWalletList(wallet_list);
+    std::cout << std::string(width, '-') << '\n';
+    return userChoice(choices);
+}
+int ConsoleUI::walletManagementMenu() {
+    //get and process data
+    std::string title = "WALLET MANAGEMENT MENU";
+    DynamicArray<Wallet> wallet_list; int n{}; int total_balance{};
+    WalletManager WalletManager;
+    WalletManager.getAllWallet(wallet_list, n);
+    for (int i=0; i<wallet_list.size(); i++) {
+        total_balance+=wallet_list[i].balance;
+    }
+    DynamicArray<string> choices;
+    choices.push_back("Add a new wallet");
+    choices.push_back("Delete a wallet");
+    choices.push_back("Rename a wallet");
+    choices.push_back("Return to dashboard");
+    //screen
+    printTitle(title);
+    std::cout << "Total balance: " << total_balance << '\n';
+    printWalletList(wallet_list);
+    std::cout << std::string(width, '-') << '\n';
+    return userChoice(choices);
+}
+int ConsoleUI::categoryManagementMenu(int type) {
+    //get and process data
+    std::string title = (type==1) ? "INCOME SOURCE MANAGEMENT MENU" : "EXPENSE CATEGORY MANAGEMENT MENU";
+    DynamicArray<Category> category_list; int n{};
+    CategoryManager CategoryManager;
+    CategoryManager.getAllCategories(category_list, type, n);
+    DynamicArray<string> choices;
+    std::string category_type = (type==1) ? "income source" : "expense source";
+    choices.push_back("Add a new " + category_type);
+    choices.push_back("Delete a " + category_type);
+    choices.push_back("Rename a " + category_type);
+    choices.push_back("Return to dashboard");
+    //screen
+    printTitle(title);
+    printCategoryList(category_list);
     std::cout << std::string(width, '-') << '\n';
     return userChoice(choices);
 }
