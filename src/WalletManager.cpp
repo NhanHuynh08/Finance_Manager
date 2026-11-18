@@ -84,7 +84,16 @@ bool WalletManager::updateBalance(const string& wallet_id, const double amount){
     }
     return false; 
 }
-
+int WalletManager::getBalance(const string& wallet_id) {
+    int balance{-1};
+    for (int i = 0; i < WalletData.size(); i++){ 
+        if (wallet_id == WalletData[i].id){
+            balance = WalletData[i].balance; 
+            break;
+        }
+    }
+    return balance;
+}
 // Query all wallets
 bool WalletManager::getAllWallet(DynamicArray<Wallet>& wallets, int& size){ 
     wallets.clear(); 

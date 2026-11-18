@@ -31,7 +31,7 @@ public:
 
     // Update balance by amount
     bool updateBalance(const string& wallet_id, const double amount);
-
+    int getBalance(const string& wallet_id); //-1 if wallet_id doesn't exist
     // Query all wallets
     bool getAllWallet(DynamicArray<Wallet>& wallets, int& size);
 }; 
