@@ -3,7 +3,7 @@
 #include "CategoryManager.h"
 #include "utils.h"
 #include <string>
-
+#include "WalletManager.h"
 //type 0: expense
 //type 1: income
 class Transaction {
@@ -15,10 +15,16 @@ public:
     Date date;
     string note;
     int type;
+    Transaction(){}
 };
 class TransactionManager {
 private:
     DynamicArray<Transaction> TransactionData;
+    int inCount;
+    int exCount;
+    bool accessDate();
+    bool saveDate();
+
     //bool accessData();
 public:
     TransactionManager();
