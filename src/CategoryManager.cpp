@@ -1,36 +1,41 @@
 #include "include/CategoryManager.h"
 #include "include/utils.h"
+#include <iostream>
 
 CategoryManager::CategoryManager() : nextID(1) {}
 
 string CategoryManager::generateID(int type) {
-    string prefix = (type == 0) ? "INC" : "EXP";   // giả sử 0 = thu, 1 = chi
+    string prefix = (type == 0) ?  "EXP" : "INC" ;   // giả sử 0 = thu, 1 = chi
     string num = to_string(nextID++);              // lấy số hiện tại rồi tăng lên
     while (num.length() < 3) num = "0" + num;      // đệm số 0: 1 -> "001"
     return prefix + num;                           // vd: "EXP003"
 }
 
-bool CategoryManager::isDuplicateID(const string& id) {
-    for (int i = 0; i < categories.size(); i++){
-        if (categories[i].id == id) return true;
+
+bool CategoryManager::isDuplicateID(const string& id, int type) {
+    auto& list = (type == 0) ? EXPcategories : INCcategories;
+    for (int i = 0; i < list.size(); i++){
+        if (list[i].id == id) return true;
     }
     return false;
 }
 
 int CategoryManager::findIndex(const string& id, int type) {
-    for (int i = 0; i < categories.size(); i++) {
-        if (categories[i].id == id) { // Sao bao loi o day v 
-            return i;
+    auto& list = (type == 0) ? EXPcategories : INCcategories;
+    for (int i = 0; i < list.size(); i++) {
+            if (list[i].id == id) {
+                return i;
+            }
         }
-    }
     return -1;
 }
 
 bool CategoryManager::addCategory(const string& name, const int type) {
     string id = generateID(type);
-    if (isDuplicateID(id)) return false;   // lớp bảo vệ, phòng khi ID bị trùng
-
-    categories.push_back(Category(id, name, type)); // mang category luu struct
+    auto& list = (type == 0) ? EXPcategories : INCcategories;
+    if (isDuplicateID(id, type)) return false;   
+    list.push_back(Category(id, name, type));
+    
     return true;
 }
 
@@ -40,10 +45,9 @@ bool CategoryManager::deleteCategory(const string& id, const int type) {
     int index = findIndex(id, type);
     if (index == -1) return false;
 
-    for (int i = index; i < categories.size() - 1; i++) {
-        categories[i] = categories[i + 1];
-    }
-    categories.pop_back();
+    auto& list = (type == 0) ? EXPcategories : INCcategories;
+    list.removeAt(index);
+
     return true;
 }
 
@@ -51,7 +55,9 @@ bool CategoryManager::deleteCategory(const string& id, const int type) {
 bool CategoryManager::renameCategory(const string& id, const string& newName, const int type){
     int index = findIndex(id, type);
     if (index == -1) return false;
-    categories[index].name = newName;
+    auto& list = (type == 0) ? EXPcategories : INCcategories;
+    list[index].name = newName;
+
     return true;
 }
 
@@ -61,17 +67,20 @@ bool CategoryManager::updateCategory(const string& id, const double amount, cons
         return false;
     }
     int Index = findIndex(id, type);
-    categories[Index].amount = amount;
+    auto& list = (type == 0) ? EXPcategories : INCcategories;
+    list[Index].amount = amount;
     return true;
 
 }
 
 bool CategoryManager::getAllCategories(DynamicArray<Category>& categories_public, const int type, int& size) {
     size = 0;
-    for (int i = 0; i < categories.size(); i++) {
-        if (categories[i].type == type) {
-            categories_public.push_back(categories[i]);
-            size++;
+    categories_public.empty();
+
+    auto& list = (type == 0) ? EXPcategories : INCcategories;
+    for (int i = 0; i < list.size(); i++) {
+        if (list[i].type == type) {
+            categories_public.push_back(list[i]);
         }
     }
     return size > 0;

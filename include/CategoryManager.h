@@ -17,17 +17,18 @@ public:
     Category(const string& id, const string& name, int type, double amount = 0)
         : id(id), name(name), amount(amount), type(type) {}
 
-};
+}; // class CategoryManager
 class CategoryManager {
 private:
-    DynamicArray<Category> categories;  // mảng động, tự quản lý kích thước
+    DynamicArray<Category> INCcategories;
+    DynamicArray<Category> EXPcategories;  // Nay data nen private
     int nextID;                         // bộ đếm để sinh ID
 
     string generateID(int type);
 public:
 
 	CategoryManager();
-    bool isDuplicateID(const string& id);
+    bool isDuplicateID(const string& id, int type);
 
     void generate_ID(const string& name, Category &s);
     int findIndex(const string& id, int type);
