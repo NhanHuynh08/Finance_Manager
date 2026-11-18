@@ -3,20 +3,20 @@
 #include "include/utils.h"
 
 //private:
-void printTitle(std::string& title) {
+void ConsoleUI::printTitle(std::string& title) {
     std::cout << string(width, '=') << '\n';
     std::cout << title << '\n';
     std::cout << string(width, '=') << '\n';
     return;
 }
-void printWalletList(DynamicArray<Wallet>& wallet_list) {
+void ConsoleUI::printWalletList(DynamicArray<Wallet>& wallet_list) {
     std::cout << "Wallet list: " << '\n';
     for (int i=0; i<wallet_list.size(); i++) {
         std::cout << "   " << i+1 << ". " << wallet_list[i].name << ": " << wallet_list[i].balance << " VND" << '\n';
     }
     return;
 }
-void printCategoryList(DynamicArray<Category>& category_list) {
+void ConsoleUI::printCategoryList(DynamicArray<Category>& category_list) {
     using namespace std;
     cout << "Category list:" << '\n';
     for (int i=0; i<category_list.size(); i++) {
@@ -24,7 +24,7 @@ void printCategoryList(DynamicArray<Category>& category_list) {
     }
     return;
 }
-int userChoice(DynamicArray<std::string>& choices) {
+int ConsoleUI::userChoice(DynamicArray<std::string>& choices) {
     for (int i=0; i<choices.size(); i++) {
         cout << "[" << i+1 << "] " << choices[i] << '\n';
     }
@@ -44,7 +44,7 @@ int userChoice(DynamicArray<std::string>& choices) {
     return user_choice;
 }
 // transaction features
-void addTransaction(int type) {
+void ConsoleUI::addTransaction(int type) {
     //get and process data
     TransactionManager TransactionManager;
     DynamicArray<Wallet> wallet_list; int n{}; int choice{};
@@ -99,7 +99,7 @@ void addTransaction(int type) {
     }
     return;
 }
-void transactionHistory(int type) {
+void ConsoleUI::transactionHistory(int type) {
     TransactionManager TransactionManager;
     WalletManager WalletManager;
     DynamicArray<Transaction> transaction_list; int n{};
@@ -126,7 +126,7 @@ void transactionHistory(int type) {
     return;
 }
 // Wallet features
-void newWallet() {
+void ConsoleUI::newWallet() {
     DynamicArray<std::string> choices;
     choices.push_back("Return to wallet menu");
     choices.push_back("Return to dashboard");
@@ -135,6 +135,7 @@ void newWallet() {
     std::string wallet_name{};
     double balance{};
     cout << "Enter new wallet name: ";
+    cin.ignore(1000, '\n');
     getline(cin, wallet_name);
     cout << "Enter wallet balance: ";
     cin >> balance;
@@ -151,7 +152,7 @@ void newWallet() {
     }
     return;
 }
-void deleteWallet(DynamicArray<Wallet>& wallet_list) {
+void ConsoleUI::deleteWallet(DynamicArray<Wallet>& wallet_list) {
     DynamicArray<std::string> choices;
     choices.push_back("Return to wallet menu");
     choices.push_back("Return to dashboard");
@@ -181,7 +182,7 @@ void deleteWallet(DynamicArray<Wallet>& wallet_list) {
     }
     return;
 }
-void renameWallet(DynamicArray<Wallet>& wallet_list) {
+void ConsoleUI::renameWallet(DynamicArray<Wallet>& wallet_list) {
     DynamicArray<std::string> choices;
     choices.push_back("Return to wallet menu");
     choices.push_back("Return to dashboard");
@@ -215,7 +216,7 @@ void renameWallet(DynamicArray<Wallet>& wallet_list) {
     return;
 }
 // Category features
-void newCategory(int type) {
+void ConsoleUI::newCategory(int type) {
     DynamicArray<std::string> choices;
     choices.push_back("Return to category menu");
     choices.push_back("Return to dashboard");
@@ -238,7 +239,7 @@ void newCategory(int type) {
     }
     return;
 }
-void deleteCategory(DynamicArray<Category>& category_list, int type) {
+void ConsoleUI::deleteCategory(DynamicArray<Category>& category_list, int type) {
     DynamicArray<std::string> choices;
     choices.push_back("Return to category menu");
     choices.push_back("Return to dashboard");
@@ -269,7 +270,7 @@ void deleteCategory(DynamicArray<Category>& category_list, int type) {
     }
     return;
 }
-void renameCategory(DynamicArray<Category>& category_list, int type) {
+void ConsoleUI::renameCategory(DynamicArray<Category>& category_list, int type) {
     DynamicArray<std::string> choices;
     choices.push_back("Return to category menu");
     choices.push_back("Return to dashboard");

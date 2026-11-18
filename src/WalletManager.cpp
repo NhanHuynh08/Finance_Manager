@@ -2,12 +2,12 @@
 
 bool WalletManager::loadWallets(){  // picking information from data/Wallet.bin 
     // loading with parameter filePath, and DynamicArray<Wallet> WalletData
-
+    return true;
 }
 
 bool WalletManager::saveWallets(){ // saving information to data/Wallet.bon (we will truncate <overwrite>)
     // saving with parameter filePath, and DynamicArray<Wallet> WalletData
-
+    return true;
 }
 
 WalletManager::WalletManager(){ // load data to WalletManager each call (run app)
@@ -83,7 +83,23 @@ bool WalletManager::updateBalance(const string& wallet_id, const double amount){
     return false; 
 }
 
+double WalletManager::getBalance(const string& wallet_id) {
+    double balance{-1};
+    for (int i = 0; i < WalletData.size(); i++){ 
+        if (wallet_id == WalletData[i].id){ 
+            // balance > 0; 
+            balance = WalletData[i].balance;
+            break;
+        }
+    }
+    return balance;
+}
+
 // Query all wallets
 bool WalletManager::getAllWallet(DynamicArray<Wallet>& wallets, int& size){ 
-    
+    // clear
+    for (int i = 0; i < wallets.size(); i++){ 
+        wallets.push_back(WalletData[i]); 
+    }
+    return true;
 }

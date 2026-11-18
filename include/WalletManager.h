@@ -12,8 +12,8 @@ public:
 };
 class WalletManager { 
 private:
-    string filePath = "data/wallet.bin";
     DynamicArray<Wallet> WalletData;
+    string filePath = "data/wallet.bin";
     bool loadWallets();
     bool saveWallets();
     string generateID();
@@ -29,7 +29,7 @@ public:
 
     // Update balance by amount
     bool updateBalance(const string& wallet_id, const double amount);
-    int getBalance(const string& wallet_id); //-1 if wallet_id doesn't exist
+    double getBalance(const string& wallet_id); //-1 if wallet_id doesn't exist
     // Query all wallets
     bool getAllWallet(DynamicArray<Wallet>& wallets, int& size);
 }; 

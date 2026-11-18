@@ -3,7 +3,7 @@
 #include "CategoryManager.h"
 #include "utils.h"
 #include <string>
-
+#include "WalletManager.h"
 //type 0: expense
 //type 1: income
 class Transaction {
@@ -15,13 +15,19 @@ public:
     Date date;
     string note;
     int type;
+    Transaction(){}
 };
 class TransactionManager {
 private:
+    int inCount;
+    int exCount;
+    bool accessDate();
+    bool saveDate();
     DynamicArray<Transaction> TransactionData;
+
     //bool accessData();
 public:
-    TransactionManager();
+    TransactionManager() {}
 
     // Add a new transaction (update wallet, write log of transaction)
     bool addTransaction(const string& wallet_id, const string& category_id, const double& amount, const Date& date, const string& note, const int type);

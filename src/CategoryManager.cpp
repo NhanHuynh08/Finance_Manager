@@ -2,7 +2,6 @@
 #include "include/utils.h"
 #include <iostream>
 
-CategoryManager::CategoryManager() : nextID(1) {}
 
 string CategoryManager::generateID(int type) {
     string prefix = (type == 0) ?  "EXP" : "INC" ;   // giả sử 0 = thu, 1 = chi

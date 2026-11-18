@@ -6,10 +6,10 @@ using namespace std;
 
 class Category {
 public:
-    string name;
-    double amount;
-    int type;
     string id;
+    string name;
+    int type;
+    double amount;
     
     Category() : id(""), name(""), amount(0), type(0) {}
 
@@ -18,13 +18,14 @@ public:
         : id(id), name(name), amount(amount), type(type) {}
 
 }; // class CategoryManager
+
 class CategoryManager {
-private:
-    DynamicArray<Category> INCcategories;
-    DynamicArray<Category> EXPcategories;  // Nay data nen private
-    int nextID;                         // bộ đếm để sinh ID
+private:  // Nay data nen private
+    int nextID = 1;                         // bộ đếm để sinh ID
 
     string generateID(int type);
+    DynamicArray<Category> INCcategories;
+    DynamicArray<Category> EXPcategories;
 public:
 
     bool isDuplicateID(const string& id, int type);
