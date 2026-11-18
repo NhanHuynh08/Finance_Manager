@@ -1,34 +1,40 @@
 #include "include/TransactionManager.h"
+// 1:INCOME 0 EXPENSE
+
 bool TransactionManager::addTransaction(string& wallet_id, string& category_id, double& amount,
                                           Date& date, string& note, int type){
-    if( amount<=0  || ( type !=0&& type!=1)){
+    if( amount<=0  || ( type !=0&& type!=1) || (type==0 && getBalance(wallet_id)-amount<0)){
         return false;
     }
-
     Transaction ts;
-    string prefix =( type ==1) ? "IN":"EX";
-    string postfix= to_string(transactionData.size()+1);
-    ts.id= prefix+postfix;
+    if(type==1){
+        ts.id="IN"+to_string(inCount);
+        inCount++;
+    }
+    else{
+        ts.id="EX"+to_string(exCount);
+        exCount++;
+    }
     ts.wallet_id=wallet_id;
     ts.category_id=category_id;
     ts.amount=amount;
-    //ts.date=data;
+    ts.date=date;
     ts.note=note;
     ts.type=type;
-    transactionData.push_back(ts);
-    return 1;
+
+    TransactionData.push_back(ts);
+    amount= (type==1)?(getBalance(wallet_id)+amount):(getBalance(wallet_id)-amount);
+    return updateBalance (wallet_id,amount);
 } 
 
-// Type : 1:INCOME 0:EXPENSE -1:ALL     
-bool TransactionManager::getAllTransaction(DynamicArray<Transaction>& transactions, int type, int& size){
-    transactions.clear();
+// Type : 1:INCOME 0:EXPENSE     
+bool TransactionManager::getAllTransaction(DynamicArray<Transaction>& Transactions, int type, int& size){
+    Transactions.clear();
 
-    for (int i=0; i<transactionData.size();++i){
-        if(type==-1 || transactionData[i].type==type){
-            transactions.push_back(transactionData[i]);
+    for (int i=0; i<TransactionData.size();++i){
+        if(TransactionData[i].type==type){
+            Transactions.push_back(TransactionData[i]);
         }
     }
-    
-    size=transactions.size();
     return true;
 }

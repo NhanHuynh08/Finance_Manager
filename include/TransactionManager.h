@@ -18,7 +18,11 @@ struct Transaction {
 
 class TransactionManager {
 private:
-    DynamicArray<Transaction> transactionData;
+    DynamicArray<Transaction> TransactionData;
+    int inCount;
+    int exCount;
+    bool accessDate();
+    bool saveDate();
     //bool accessData();
 public:
     TransactionManager();
