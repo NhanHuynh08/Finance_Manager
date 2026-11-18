@@ -5,11 +5,15 @@
 #include "include/WalletManager.h"
 #include <iostream>
 
+
+
 using namespace std;
 int main() {
     CategoryManager CategoryManager();
     TransactionManager TransactionManager();
     WalletManager WalletManager();
-    cout << "Bai tap lon CS160" << endl;
+    ConsoleUI UI;
+    UI.displayDashBoard();
+    std::cout << "Program exited successfully, have a nice day!" << '\n';
     return 0;
 }

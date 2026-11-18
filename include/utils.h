@@ -1,12 +1,18 @@
 #pragma once
 #include <cassert>
+#include <string>
 struct Date { 
-    int day;
-    int month;
-    int year;
+    int day=1;
+    int month=1;
+    int year=1;
 
-    Date(int d, int m, int y) : day(d), month(m), year(y) {}
-}; //Tran Tra Khoi Nguyen
+    //Date(int d, int m, int y) : day(d), month(m), year(y) {}
+    void displayDate() {
+        std::cout << day << '-' << month << '-' << year;
+    }
+}; 
+//Tran Tra Khoi Nguyen
+
 template <typename T>
 class DynamicArray {
     private:
