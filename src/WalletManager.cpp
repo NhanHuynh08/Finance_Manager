@@ -2,11 +2,12 @@
 
 bool WalletManager::loadWallets(){  // picking information from data/Wallet.bin 
     // loading with parameter filePath, and DynamicArray<Wallet> WalletData
-
+    ifstream inFile(filePath, ios::binary); 
 }
 
 bool WalletManager::saveWallets(){ // saving information to data/Wallet.bon (we will truncate <overwrite>)
     // saving with parameter filePath, and DynamicArray<Wallet> WalletData
+    ofstream outFile(filePath, ios::binary); // auto have out and truncate  
 
 }
 
