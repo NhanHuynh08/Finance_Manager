@@ -1,4 +1,5 @@
 #include "include/WalletManager.h" 
+<<<<<<< HEAD
 
 bool WalletManager::loadWallets(){  // picking information from data/Wallet.bin 
     // loading with parameter filePath, and DynamicArray<Wallet> WalletData
@@ -88,3 +89,5 @@ bool WalletManager::updateBalance(const string& wallet_id, const double amount){
 bool WalletManager::getAllWallet(DynamicArray<Wallet>& wallets, int& size){ 
     
 }
+=======
+>>>>>>> 6a13d2347572eb65240a37516224028f82e63732
