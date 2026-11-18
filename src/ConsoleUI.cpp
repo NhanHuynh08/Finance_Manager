@@ -35,13 +35,13 @@ int userChoice(DynamicArray<std::string>& choices) {
     while (true) {
         std::cin >> user_choice;
         if (user_choice <= choices.size() && user_choice >= 0) {
-            return user_choice;
+            break;
         }
         else {
             std::cout << "Invalid choice, please retry: ";
         }
     }
-    return;
+    return user_choice;
 }
 // transaction features
 void addTransaction(int type) {
@@ -91,15 +91,6 @@ void addTransaction(int type) {
     ConsoleUI UI;
     switch (navigation) {
         case 1:
-            int type{};
-            std::cout << "[1] Expense management" << '\n'
-                      << "[2] Income management" << '\n'
-                      << "Type your choice here: ";
-            while (true) {
-                std::cin >> type;
-                if (type == 1 || type == 2) break;
-                std::cout << "Invalid choice, please retry: "; 
-            }
             UI.transactionManagementMenu(type-1);
             break;
         case 2:
@@ -126,15 +117,6 @@ void transactionHistory(int type) {
     ConsoleUI UI;
     switch (navigation) {
         case 1:
-            int type{};
-            std::cout << "[1] Expense management" << '\n'
-                      << "[2] Income management" << '\n'
-                      << "Type your choice here: ";
-            while (true) {
-                std::cin >> type;
-                if (type == 1 || type == 2) break;
-                std::cout << "Invalid choice, please retry: "; 
-            }
             UI.transactionManagementMenu(type-1);
             break;
         case 2:
@@ -248,15 +230,6 @@ void newCategory(int type) {
     ConsoleUI UI;
     switch (navigation) {
         case 1:
-            int type{};
-            std::cout << "[1] Expense category management" << '\n'
-                      << "[2] Income source management" << '\n'
-                      << "Type your choice here: ";
-            while (true) {
-                std::cin >> type;
-                if (type == 1 || type == 2) break;
-                std::cout << "Invalid choice, please retry: "; 
-            }
             UI.categoryManagementMenu(type-1);
             break;
         case 2:
@@ -288,15 +261,6 @@ void deleteCategory(DynamicArray<Category>& category_list, int type) {
     ConsoleUI UI;
     switch (navigation) {
         case 1:
-            int type{};
-            std::cout << "[1] Expense category management" << '\n'
-                      << "[2] Income source management" << '\n'
-                      << "Type your choice here: ";
-            while (true) {
-                std::cin >> type;
-                if (type == 1 || type == 2) break;
-                std::cout << "Invalid choice, please retry: "; 
-            }
             UI.categoryManagementMenu(type-1);
             break;
         case 2:
@@ -331,15 +295,6 @@ void renameCategory(DynamicArray<Category>& category_list, int type) {
     ConsoleUI UI;
     switch (navigation) {
         case 1:
-            int type{};
-            std::cout << "[1] Expense category management" << '\n'
-                      << "[2] Income source management" << '\n'
-                      << "Type your choice here: ";
-            while (true) {
-                std::cin >> type;
-                if (type == 1 || type == 2) break;
-                std::cout << "Invalid choice, please retry: "; 
-            }
             UI.categoryManagementMenu(type-1);
             break;
         case 2:
@@ -369,12 +324,12 @@ void ConsoleUI::displayDashBoard() {
     std::cout << std::string(width, '-') << '\n';
     int navigation = userChoice(choices);
     ConsoleUI UI;
+    int type{};
     switch (navigation) {
         case 1:
             UI.walletManagementMenu();
             break;
         case 2:
-            int type{};
             std::cout << "[1] Expense management" << '\n'
                       << "[2] Income management" << '\n'
                       << "Type your choice here: ";

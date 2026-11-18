@@ -27,7 +27,6 @@ private:
     string generateID(int type);
 public:
 
-	CategoryManager();
     bool isDuplicateID(const string& id, int type);
 
     void generate_ID(const string& name, Category &s);

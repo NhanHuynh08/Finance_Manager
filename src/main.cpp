@@ -9,9 +9,9 @@
 
 using namespace std;
 int main() {
-    CategoryManager CategoryManager();
-    TransactionManager TransactionManager();
-    WalletManager WalletManager();
+    CategoryManager CategoryManager;
+    TransactionManager TransactionManager;
+    WalletManager WalletManager;
     ConsoleUI UI;
     UI.displayDashBoard();
     std::cout << "Program exited successfully, have a nice day!" << '\n';
