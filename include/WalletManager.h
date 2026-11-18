@@ -12,10 +12,13 @@ public:
 };
 class WalletManager { 
 private:
+    string filePath;
     DynamicArray<Wallet> WalletData;
-    //bool accessData();
+    bool loadWallets();
+    bool saveWallets();
+    string generateID();
 public:
-    WalletManager();
+    WalletManager(const string& path);
 
     // Add a new wallet
     bool addWallet(const string& name, const double balance);
