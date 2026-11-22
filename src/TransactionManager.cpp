@@ -2,9 +2,8 @@
 // 1:INCOME 0 EXPENSE
 
 bool TransactionManager::addTransaction(const string& wallet_id, const string& category_id, const double& amount,
-                                        const Date& date, const string& note, const int type){
-    WalletManager WalletManager;
-    if( amount<=0  || ( type !=0&& type!=1) || (type==0 && WalletManager.getBalance(wallet_id)-amount<0)){
+                                        const Date& date, const string& note, const int type) {
+    if( amount<=0  || ( type !=0&& type!=1) || (type==0 && WM.getBalance(wallet_id)-amount<0)){
         return false;
     }
     Transaction ts;
@@ -23,12 +22,12 @@ bool TransactionManager::addTransaction(const string& wallet_id, const string& c
     ts.note=note;
     ts.type=type;
 
-    double total= (type==1)?(WalletManager.getBalance(wallet_id)+amount):(WalletManager.getBalance(wallet_id)-amount);
-    return WalletManager.updateBalance(wallet_id,total);
+    double total= (type==1)?(WM.getBalance(wallet_id)+amount):(WM.getBalance(wallet_id)-amount);
+    return WM.updateBalance(wallet_id,total);
 } 
 
 // Type : 1:INCOME 0:EXPENSE     
-bool TransactionManager::getAllTransaction(DynamicArray<Transaction>& Transactions, int type, int& size){
+bool TransactionManager::getAllTransaction(DynamicArray<Transaction>& Transactions, int type){
     //Transactions.clear();
 
     for (int i=0; i<TransactionData.size();++i){

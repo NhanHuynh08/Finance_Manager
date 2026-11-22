@@ -1,5 +1,4 @@
 #include "include/WalletManager.h" 
-
 bool WalletManager::loadWallets(){  // picking information from data/Wallet.bin 
     // loading with parameter filePath, and DynamicArray<Wallet> WalletData
     return true;
@@ -10,11 +9,11 @@ bool WalletManager::saveWallets(){ // saving information to data/Wallet.bon (we 
     return true;
 }
 
-WalletManager::WalletManager(){ // load data to WalletManager each call (run app)
+WalletManager::WalletManager() { // load data to WalletManager each call (run app)
     bool load = loadWallets(); 
     if (!load || WalletData.size() == 0){ 
-        addWallet("Ngân hàng MB Bank", 1000000);  // auto having this pointer 
-        addWallet("Ví cá nhân", 500000);  
+        addWallet("MB Bank", 1000000);  // auto having this pointer 
+        addWallet("Physical wallet", 500000);  
         saveWallets();
     }
 }
@@ -96,9 +95,9 @@ double WalletManager::getBalance(const string& wallet_id) {
 }
 
 // Query all wallets
-bool WalletManager::getAllWallet(DynamicArray<Wallet>& wallets, int& size){ 
+bool WalletManager::getAllWallet(DynamicArray<Wallet>& wallets){ 
     // clear
-    for (int i = 0; i < wallets.size(); i++){ 
+    for (int i = 0; i < WalletData.size(); i++){ 
         wallets.push_back(WalletData[i]); 
     }
     return true;

@@ -1,7 +1,6 @@
 #include "include/ConsoleUI.h"
 #include <iostream>
-#include "include/utils.h"
-
+#include <iomanip>
 //private:
 void ConsoleUI::printTitle(std::string& title) {
     std::cout << string(width, '=') << '\n';
@@ -11,6 +10,7 @@ void ConsoleUI::printTitle(std::string& title) {
 }
 void ConsoleUI::printWalletList(DynamicArray<Wallet>& wallet_list) {
     std::cout << "Wallet list: " << '\n';
+    cout << std::fixed << setprecision(0);
     for (int i=0; i<wallet_list.size(); i++) {
         std::cout << "   " << i+1 << ". " << wallet_list[i].name << ": " << wallet_list[i].balance << " VND" << '\n';
     }
@@ -46,13 +46,10 @@ int ConsoleUI::userChoice(DynamicArray<std::string>& choices) {
 // transaction features
 void ConsoleUI::addTransaction(int type) {
     //get and process data
-    TransactionManager TransactionManager;
-    DynamicArray<Wallet> wallet_list; int n{}; int choice{};
-    WalletManager WalletManager;
-    WalletManager.getAllWallet(wallet_list, n);
-    CategoryManager CategoryManager;
+    DynamicArray<Wallet> wallet_list; int choice{};
+    WM.getAllWallet(wallet_list);
     DynamicArray<Category> category_list;
-    CategoryManager.getAllCategories(category_list, type, n);
+    CM.getAllCategories(category_list, type);
     DynamicArray<string> choices;
     choices.push_back("Return to transaction menu");
     choices.push_back("Return to dashboard");
@@ -64,7 +61,7 @@ void ConsoleUI::addTransaction(int type) {
         if (std::cin >> choice && choice<=wallet_list.size() && choice>0) {
             break;
         }
-        else std::cout << "Invalid input, please retry: " << '\n';
+        else std::cout << "Invalid input, please retry: ";
     }
     std::string wallet_id = wallet_list[choice-1].id;
     printCategoryList(category_list);
@@ -74,24 +71,25 @@ void ConsoleUI::addTransaction(int type) {
         if (std::cin >> choice && choice<=wallet_list.size() && choice>0) {
             break;
         }
-        else std::cout << "Invalid input, please retry: " << '\n';
+        else std::cout << "Invalid input, please retry: ";
     }
     std::string category_id = category_list[choice-1].id;
     double amount{}; Date date; std::string note{}; 
     std::cout << "Amount: "; std::cin >> amount;
     std::cout << "Date (dd mm yyyy): "; std::cin >> date.day >> date.month >> date.year;
-    std::cout << "Transaction note: "; getline(cin, note);
-    if (TransactionManager.addTransaction(wallet_id, category_id, amount, date, note, type)) {
+    std::cout << "Transaction note: "; 
+    cin.ignore('\n', 1000);
+    getline(cin, note);
+    if (TM.addTransaction(wallet_id, category_id, amount, date, note, type)) {
         std::cout << "Added transaction successfully!" << '\n';
     }
     else {
-        std::cout << "Transaction failed, please retry." << '\n';
+        std::cout << "Transaction failed, please retry.";
     }
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
-            UI.transactionManagementMenu(type-1);
+            UI.transactionManagementMenu(type);
             break;
         case 2:
             UI.displayDashBoard();
@@ -100,10 +98,8 @@ void ConsoleUI::addTransaction(int type) {
     return;
 }
 void ConsoleUI::transactionHistory(int type) {
-    TransactionManager TransactionManager;
-    WalletManager WalletManager;
-    DynamicArray<Transaction> transaction_list; int n{};
-    TransactionManager.getAllTransaction(transaction_list, type, n);
+    DynamicArray<Transaction> transaction_list;
+    TM.getAllTransaction(transaction_list, type);
     DynamicArray<string> choices;
     choices.push_back("Return to transaction menu");
     choices.push_back("Return to dashboard");
@@ -114,10 +110,9 @@ void ConsoleUI::transactionHistory(int type) {
                   << "Note: " << transaction_list[i].note << '\n';
     }
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
-            UI.transactionManagementMenu(type-1);
+            UI.transactionManagementMenu(type);
             break;
         case 2:
             UI.displayDashBoard();
@@ -131,7 +126,6 @@ void ConsoleUI::newWallet() {
     choices.push_back("Return to wallet menu");
     choices.push_back("Return to dashboard");
     using namespace std;
-    WalletManager WalletManager;
     std::string wallet_name{};
     double balance{};
     cout << "Enter new wallet name: ";
@@ -139,9 +133,9 @@ void ConsoleUI::newWallet() {
     getline(cin, wallet_name);
     cout << "Enter wallet balance: ";
     cin >> balance;
-    WalletManager.addWallet(wallet_name, balance);
+    if (WM.addWallet(wallet_name, balance)) cout << "Wallet added successfully!" << '\n';
+    else cout << "Error: please try again!" << '\n'; 
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
             UI.walletManagementMenu();
@@ -157,13 +151,12 @@ void ConsoleUI::deleteWallet(DynamicArray<Wallet>& wallet_list) {
     choices.push_back("Return to wallet menu");
     choices.push_back("Return to dashboard");
     using namespace std;
-    WalletManager WalletManager;
     int choice{};
     cout << "Enter wallet index to delete: ";
     while (true) {
         cin >> choice;
         if (choice <= wallet_list.size() && choice > 0) {
-            WalletManager.deleteWallet(wallet_list[choice-1].id);
+            WM.deleteWallet(wallet_list[choice-1].id);
             break;
         }
         else {
@@ -171,7 +164,6 @@ void ConsoleUI::deleteWallet(DynamicArray<Wallet>& wallet_list) {
         }
     }
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
             UI.walletManagementMenu();
@@ -187,7 +179,6 @@ void ConsoleUI::renameWallet(DynamicArray<Wallet>& wallet_list) {
     choices.push_back("Return to wallet menu");
     choices.push_back("Return to dashboard");
     using namespace std;
-    WalletManager WalletManager;
     int choice{};
     cout << "Enter wallet index to rename: ";
     while (true) {
@@ -195,8 +186,9 @@ void ConsoleUI::renameWallet(DynamicArray<Wallet>& wallet_list) {
         if (choice <= wallet_list.size() && choice > 0) {
             std::string new_name{};
             cout << "Rename " << wallet_list[choice-1].name << " to: ";
+            cin.ignore('\n', 100);
             getline(cin, new_name);
-            WalletManager.renameWallet(wallet_list[choice-1].id, new_name);
+            WM.renameWallet(wallet_list[choice-1].id, new_name);
             break;
         }
         else {
@@ -204,7 +196,6 @@ void ConsoleUI::renameWallet(DynamicArray<Wallet>& wallet_list) {
         }
     }
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
             UI.walletManagementMenu();
@@ -221,14 +212,13 @@ void ConsoleUI::newCategory(int type) {
     choices.push_back("Return to category menu");
     choices.push_back("Return to dashboard");
     using namespace std;
-    CategoryManager CategoryManager;
     std::string category_name{};
     std::string category_type = (type==1) ? "income source" : "expense category";
     cout << "Enter new " << category_type << " name: ";
+    cin.ignore('\n', 100);
     getline(cin, category_name);
-    CategoryManager.addCategory(category_name, type);
+    CM.addCategory(category_name, type);
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
             UI.categoryManagementMenu(type-1);
@@ -244,14 +234,13 @@ void ConsoleUI::deleteCategory(DynamicArray<Category>& category_list, int type) 
     choices.push_back("Return to category menu");
     choices.push_back("Return to dashboard");
     using namespace std;
-    CategoryManager CategoryManager;
     int choice{};
     std::string category_type = (type==1) ? "income source" : "expense category";
     cout << "Enter " << category_type << " index to delete: ";
     while (true) {
         cin >> choice;
         if (choice <= category_list.size() && choice > 0) {
-            CategoryManager.deleteCategory(category_list[choice-1].id, type);
+            CM.deleteCategory(category_list[choice-1].id, type);
             break;
         }
         else {
@@ -259,10 +248,9 @@ void ConsoleUI::deleteCategory(DynamicArray<Category>& category_list, int type) 
         }
     }
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
-            UI.categoryManagementMenu(type-1);
+            UI.categoryManagementMenu(type);
             break;
         case 2:
             UI.displayDashBoard();
@@ -275,7 +263,6 @@ void ConsoleUI::renameCategory(DynamicArray<Category>& category_list, int type) 
     choices.push_back("Return to category menu");
     choices.push_back("Return to dashboard");
     using namespace std;
-    CategoryManager CategoryManager;
     int choice{};
     std::string category_type = (type==1) ? "income source" : "expense category";
     cout << "Enter " << category_type << " index to rename: ";
@@ -284,8 +271,9 @@ void ConsoleUI::renameCategory(DynamicArray<Category>& category_list, int type) 
         if (choice <= category_list.size() && choice > 0) {
             std::string new_name;
             cout << "Enter " << category_list[choice-1].name << " new name: ";
+            cin.ignore('\n', 100);
             getline(cin, new_name);
-            CategoryManager.renameCategory(category_list[choice-1].id, new_name, type);
+            CM.renameCategory(category_list[choice-1].id, new_name, type);
             break;
         }
         else {
@@ -293,10 +281,9 @@ void ConsoleUI::renameCategory(DynamicArray<Category>& category_list, int type) 
         }
     }
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
-            UI.categoryManagementMenu(type-1);
+            UI.categoryManagementMenu(type);
             break;
         case 2:
             UI.displayDashBoard();
@@ -307,9 +294,8 @@ void ConsoleUI::renameCategory(DynamicArray<Category>& category_list, int type) 
 // public:
 void ConsoleUI::displayDashBoard() {
     std::string title = "DASHBOARD";
-    DynamicArray<Wallet> wallet_list; int n{}; int total_balance{};
-    WalletManager WalletManager;
-    WalletManager.getAllWallet(wallet_list, n);
+    DynamicArray<Wallet> wallet_list; int total_balance{};
+    WM.getAllWallet(wallet_list);
     for (int i=0; i<wallet_list.size(); i++) {
         total_balance+=wallet_list[i].balance;
     }
@@ -324,7 +310,6 @@ void ConsoleUI::displayDashBoard() {
     printWalletList(wallet_list);
     std::cout << std::string(width, '-') << '\n';
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     int type{};
     switch (navigation) {
         case 1:
@@ -355,9 +340,8 @@ void ConsoleUI::transactionManagementMenu(int type) {
     //get and process data
     std::string transaction_type = (type==1) ? "Income" : "Expense";
     std::string title = (type==1) ? "INCOME MANAGEMENT MENU" : "EXPENSE MANAGEMENT MENU";
-    DynamicArray<Wallet> wallet_list; int n{}; int total_balance{};
-    WalletManager WalletManager;
-    WalletManager.getAllWallet(wallet_list, n);
+    DynamicArray<Wallet> wallet_list; int total_balance{};
+    WM.getAllWallet(wallet_list);
     for (int i=0; i<wallet_list.size(); i++) {
         total_balance+=wallet_list[i].balance;
     }
@@ -371,7 +355,6 @@ void ConsoleUI::transactionManagementMenu(int type) {
     printWalletList(wallet_list);
     std::cout << std::string(width, '-') << '\n';
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
             UI.addTransaction(type);
@@ -388,9 +371,8 @@ void ConsoleUI::transactionManagementMenu(int type) {
 void ConsoleUI::walletManagementMenu() {
     //get and process data
     std::string title = "WALLET MANAGEMENT MENU";
-    DynamicArray<Wallet> wallet_list; int n{}; int total_balance{};
-    WalletManager WalletManager;
-    WalletManager.getAllWallet(wallet_list, n);
+    DynamicArray<Wallet> wallet_list; int total_balance{};
+    WM.getAllWallet(wallet_list);
     for (int i=0; i<wallet_list.size(); i++) {
         total_balance+=wallet_list[i].balance;
     }
@@ -405,7 +387,6 @@ void ConsoleUI::walletManagementMenu() {
     printWalletList(wallet_list);
     std::cout << std::string(width, '-') << '\n';
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
             UI.newWallet();
@@ -425,9 +406,8 @@ void ConsoleUI::walletManagementMenu() {
 void ConsoleUI::categoryManagementMenu(int type) {
     //get and process data
     std::string title = (type==1) ? "INCOME SOURCE MANAGEMENT MENU" : "EXPENSE CATEGORY MANAGEMENT MENU";
-    DynamicArray<Category> category_list; int n{};
-    CategoryManager CategoryManager;
-    CategoryManager.getAllCategories(category_list, type, n);
+    DynamicArray<Category> category_list;
+    CM.getAllCategories(category_list, type);
     DynamicArray<string> choices;
     std::string category_type = (type==1) ? "income source" : "expense source";
     choices.push_back("Add a new " + category_type);
@@ -439,7 +419,6 @@ void ConsoleUI::categoryManagementMenu(int type) {
     printCategoryList(category_list);
     std::cout << std::string(width, '-') << '\n';
     int navigation = userChoice(choices);
-    ConsoleUI UI;
     switch (navigation) {
         case 1:
             UI.newCategory(type);

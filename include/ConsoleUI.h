@@ -1,22 +1,20 @@
 //Tran Tra Khoi Nguyen
 #pragma once
-#include "WalletManager.h"
-#include "CategoryManager.h"
 #include "TransactionManager.h"
 #include "utils.h"
-#include <iostream>
 #include <string>
 
 const int width = 100;
 class ConsoleUI {
 private:
-    static void clrscr();
+    void clrscr();
     void printTitle(std::string& title);
     void printWalletList(DynamicArray<Wallet>& wallet_list);
     void printCategoryList(DynamicArray<Category>& category_list);
     int userChoice(DynamicArray<std::string>& choices);
 
 public:
+    ConsoleUI() {}
     void displayDashBoard(); // 1-wallet, 2-trans, 3-category0, 4-category1
 
     // Wallet -> Category -> Transaction information -> Transaction.cpp
@@ -40,3 +38,4 @@ public:
     void deleteCategory(DynamicArray<Category>& category_list, int type); // 1 - category menu, 2 - dashboard
     void renameCategory(DynamicArray<Category>& category_list, int type); // 1 - category menu, 2 - dashboard
 };
+inline ConsoleUI UI;

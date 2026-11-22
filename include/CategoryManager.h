@@ -17,7 +17,7 @@ public:
     Category(const string& id, const string& name, int type, double amount = 0)
         : id(id), name(name), amount(amount), type(type) {}
 
-}; // class CategoryManager
+};
 
 class CategoryManager {
 private:  // Nay data nen private
@@ -27,6 +27,7 @@ private:  // Nay data nen private
     DynamicArray<Category> INCcategories;
     DynamicArray<Category> EXPcategories;
 public:
+    CategoryManager();
 
     bool isDuplicateID(const string& id, int type);
 
@@ -44,7 +45,6 @@ public:
     // Update amount of money of a category
     bool updateCategory(const string& id, const double amount, const int type);
     // Query all categories of a specific type (expense or income) up to date (store results in variable categories)
-    bool getAllCategories(DynamicArray<Category>& categories_public, const int type, int &size);
+    bool getAllCategories(DynamicArray<Category>& categories_public, const int type);
 };
-
-
+inline CategoryManager CM;

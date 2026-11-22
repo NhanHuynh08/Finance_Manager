@@ -1,7 +1,16 @@
 #include "include/CategoryManager.h"
 #include "include/utils.h"
-#include <iostream>
 
+CategoryManager::CategoryManager() { // load data to WalletManager each call (run app)
+    addCategory("Food & Drink", 0);
+    addCategory("Housing", 0);
+    addCategory("Transportation", 0);
+    addCategory("Healthcare", 0);
+    addCategory("Lifestyle & Entertainment", 0);
+    addCategory("Salary Wage", 1);
+    addCategory("Passive Income", 1);
+    addCategory("Part-time Job", 1);
+}
 
 string CategoryManager::generateID(int type) {
     string prefix = (type == 0) ?  "EXP" : "INC" ;   // giả sử 0 = thu, 1 = chi
@@ -72,8 +81,7 @@ bool CategoryManager::updateCategory(const string& id, const double amount, cons
 
 }
 
-bool CategoryManager::getAllCategories(DynamicArray<Category>& categories_public, const int type, int& size) {
-    size = 0;
+bool CategoryManager::getAllCategories(DynamicArray<Category>& categories_public, const int type) {
     categories_public.empty();
 
     auto& list = (type == 0) ? EXPcategories : INCcategories;
@@ -82,6 +90,5 @@ bool CategoryManager::getAllCategories(DynamicArray<Category>& categories_public
             categories_public.push_back(list[i]);
         }
     }
-    return size > 0;
+    return true;
 }
-#include "include/CategoryManager.h"

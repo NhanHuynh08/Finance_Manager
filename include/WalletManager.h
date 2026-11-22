@@ -2,6 +2,7 @@
 #pragma once
 #include <string>
 #include "utils.h" 
+#include <iostream>
 using namespace std; 
 
 class Wallet {
@@ -31,7 +32,6 @@ public:
     bool updateBalance(const string& wallet_id, const double amount);
     double getBalance(const string& wallet_id); //-1 if wallet_id doesn't exist
     // Query all wallets
-    bool getAllWallet(DynamicArray<Wallet>& wallets, int& size);
-}; 
-
-
+    bool getAllWallet(DynamicArray<Wallet>& wallets);
+};
+inline WalletManager WM;
