@@ -78,7 +78,7 @@ void ConsoleUI::addTransaction(int type) {
     std::cout << "Amount: "; std::cin >> amount;
     std::cout << "Date (dd mm yyyy): "; std::cin >> date.day >> date.month >> date.year;
     std::cout << "Transaction note: "; 
-    cin.ignore('\n', 1000);
+    cin.ignore(100, '\n');
     getline(cin, note);
     if (TM.addTransaction(wallet_id, category_id, amount, date, note, type)) {
         std::cout << "Added transaction successfully!" << '\n';
@@ -129,7 +129,7 @@ void ConsoleUI::newWallet() {
     std::string wallet_name{};
     double balance{};
     cout << "Enter new wallet name: ";
-    cin.ignore(1000, '\n');
+    cin.ignore(100, '\n');
     getline(cin, wallet_name);
     cout << "Enter wallet balance: ";
     cin >> balance;
@@ -184,10 +184,11 @@ void ConsoleUI::renameWallet(DynamicArray<Wallet>& wallet_list) {
     while (true) {
         cin >> choice;
         if (choice <= wallet_list.size() && choice > 0) {
-            std::string new_name{};
+            string new_name;
+            cin.ignore(100, '\n');
             cout << "Rename " << wallet_list[choice-1].name << " to: ";
-            cin.ignore('\n', 100);
             getline(cin, new_name);
+            cout << '\n' << new_name <<'\n';
             WM.renameWallet(wallet_list[choice-1].id, new_name);
             break;
         }
@@ -215,7 +216,7 @@ void ConsoleUI::newCategory(int type) {
     std::string category_name{};
     std::string category_type = (type==1) ? "income source" : "expense category";
     cout << "Enter new " << category_type << " name: ";
-    cin.ignore('\n', 100);
+    cin.ignore(100, '\n');
     getline(cin, category_name);
     CM.addCategory(category_name, type);
     int navigation = userChoice(choices);
@@ -271,9 +272,11 @@ void ConsoleUI::renameCategory(DynamicArray<Category>& category_list, int type) 
         if (choice <= category_list.size() && choice > 0) {
             std::string new_name;
             cout << "Enter " << category_list[choice-1].name << " new name: ";
-            cin.ignore('\n', 100);
+            cin.ignore(100, '\n');
             getline(cin, new_name);
-            CM.renameCategory(category_list[choice-1].id, new_name, type);
+            if (CM.renameCategory(category_list[choice-1].id, new_name, type))
+                cout << "Renamed successfully!" << '\n';
+            else cout << "Rename unsuccessfully." << '\n';
             break;
         }
         else {
