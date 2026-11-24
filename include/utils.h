@@ -63,4 +63,10 @@ class DynamicArray {
 
     T* end() { return data+size;}
     const T* end() const { return data+size;}
+    void clear(){
+        delete [] data;
+        capacity=20;
+        currentSize=0;
+        data=new T[capacity];
+    }
 }; //Huynh Nghia Nhan
