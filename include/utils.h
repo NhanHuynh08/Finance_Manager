@@ -38,6 +38,10 @@ class DynamicArray {
         assert(index >= 0 && index < currentSize); 
         return data[index];
     }
+    const T& operator [] (int index) const {
+        assert(index >= 0 && index < currentSize); 
+        return data[index];
+    }
     int size() const{
         return currentSize;
     }
@@ -62,7 +66,7 @@ class DynamicArray {
     const T* begin() const { return data;}
 
     T* end() { return data+size;}
-    const T* end() const { return data+size;}
+    const T* end() const { return data+currentSize;}
     void clear(){
         delete [] data;
         capacity=20;
