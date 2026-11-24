@@ -2,9 +2,8 @@
 // 1:INCOME 0 EXPENSE
 
 bool TransactionManager::addTransaction(const string& wallet_id, const string& category_id, const double& amount,
-                                        const Date& date, const string& note, const int type){
-    WalletManager WalletM;
-    if( amount<=0  || ( type !=0&& type!=1) || (type==0 && WalletM.getBalance(wallet_id)-amount<0)){
+                                        const Date& date, const string& note, const int type) {
+    if( amount<=0  || ( type !=0&& type!=1) || (type==0 && WM.getBalance(wallet_id)-amount<0)){
         return false;
     }
     Transaction ts;
@@ -31,8 +30,8 @@ bool TransactionManager::addTransaction(const string& wallet_id, const string& c
 } 
 
 // Type : 1:INCOME 0:EXPENSE     
-bool TransactionManager::getAllTransaction(DynamicArray<Transaction>& Transactions, int type, int& size){
-    Transactions.clear();
+bool TransactionManager::getAllTransaction(DynamicArray<Transaction>& Transactions, int type){
+    //Transactions.clear();
 
     for (int i=0; i<TransactionData.size();++i){
         if(TransactionData[i].type==type){

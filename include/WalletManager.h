@@ -2,6 +2,7 @@
 #pragma once
 #include <string>
 #include "utils.h" 
+#include <iostream>
 using namespace std; 
 
 class Wallet {
@@ -13,7 +14,10 @@ public:
 class WalletManager { 
 private:
     DynamicArray<Wallet> WalletData;
-    //bool accessData();
+    string filePath = "data/wallet.bin";
+    bool loadWallets();
+    bool saveWallets();
+    string generateID();
 public:
     WalletManager();
 
@@ -26,9 +30,8 @@ public:
 
     // Update balance by amount
     bool updateBalance(const string& wallet_id, const double amount);
-
+    double getBalance(const string& wallet_id); //-1 if wallet_id doesn't exist
     // Query all wallets
-    bool getAllWallet(DynamicArray<Wallet>& wallets, int& size);
-}; 
-
-
+    bool getAllWallet(DynamicArray<Wallet>& wallets);
+};
+inline WalletManager WM;
