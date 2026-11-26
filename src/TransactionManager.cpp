@@ -29,7 +29,7 @@ bool TransactionManager::addTransaction(const string& wallet_id, const string& c
     double totalC = ( type==1) ? lastBalanceC+amount:lastBalanceC-amount;
     bool ok= WM.updateBalance(wallet_id,totalW)
              &&CM.updateCategory(wallet_id,totalC,type);
-    if(ok=false) {
+    if(ok==false) {
         WM.updateBalance(wallet_id,lastBalanceW);
         CM.updateCategory(wallet_id,lastBalanceC,type);
         return ok;
