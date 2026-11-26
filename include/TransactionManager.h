@@ -15,8 +15,12 @@ public: // should be public for simplify
     double amount; 
     string note; 
     int type; 
+
+    Date nextday{begin}; // the day it will be next for month_transaction
+
     void saveBinary(ofstream& Out) const; 
     bool loadBinary(ifstream& In); 
+    bool check_recurring(); 
 };
 
 class Transaction {

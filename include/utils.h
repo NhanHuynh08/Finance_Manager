@@ -3,28 +3,25 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <ctime> 
 struct Date {  // all function in struct is inline 
+private: 
+    bool LeapYear();
+    int getDay_of_Month(); 
+public:
     int day=1;
     int month=1;
     int year=1;
+    // 1 meaning d1 > d2, -1 meaning d1 < d2, 0 meaning d1 = d2 
+    void One_more_month(const int& max_day); 
+    static int compared(const Date& d1, const Date& d2);
 
+    static Date get_current_date();
     //Date(int d, int m, int y) : day(d), month(m), year(y) {}
-    void displayDate() {
-        std::cout << day << '-' << month << '-' << year;
-    }
-    void saveBinary(std::ofstream& Out) const { // tránh dùng # include "BinaryIO.h" --> gây circular include
-        Out.write(reinterpret_cast<const char*>(&day), sizeof(int)); 
-        Out.write(reinterpret_cast<const char*>(&month), sizeof(int)); 
-        Out.write(reinterpret_cast<const char*>(&year), sizeof(int)); 
-    } 
+    void displayDate();
+    void saveBinary(std::ofstream& Out) const;
 
-    bool loadBinary(std::ifstream& In){ 
-        return (
-            In.read(reinterpret_cast<char*>(&day), sizeof(int)) && 
-            In.read(reinterpret_cast<char*>(&month), sizeof(int)) && 
-            In.read(reinterpret_cast<char*>(&year), sizeof(int))
-        ); 
-    }
+    bool loadBinary(std::ifstream& In);
 }; 
 //Tran Tra Khoi Nguyen
 

@@ -9,6 +9,7 @@ void Month_Transaction::saveBinary(ofstream& Out) const {
     BinaryIO::write(Out, amount); 
     BinaryIO::write(Out, note); 
     BinaryIO::write(Out, type); 
+    BinaryIO::write(Out, nextday); 
 } 
 
 bool Month_Transaction::loadBinary(ifstream& In){ // auto go into Wallet
@@ -19,8 +20,18 @@ bool Month_Transaction::loadBinary(ifstream& In){ // auto go into Wallet
         BinaryIO::read(In, category_id) && 
         BinaryIO::read(In, amount) && 
         BinaryIO::read(In, note) && 
-        BinaryIO::read(In, type)
+        BinaryIO::read(In, type) && 
+        BinaryIO::read(In, nextday)
     ); 
+}
+
+bool Month_Transaction::check_recurring(){ 
+    bool avaiable = Date::compared(nextday, end) < 1;
+    if (!avaiable) return false;  
+    Date today = Date::get_current_date(); 
+    avaiable = Date::compared(nextday, today); 
+    nextday.One_more_month(begin.day); 
+    return avaiable; 
 }
 
 void Transaction::saveBinary(ofstream& Out) const { 
@@ -64,7 +75,15 @@ bool TransactionManager::saveTransactionManager(){ // saving information to data
 TransactionManager::TransactionManager() { // load data to WalletManager each call (run app)
     loadTransactionManager(); 
     // check whether it could add or not 
-    
+    for (int i = 0; i < RecurringData.size(); ++i){ 
+        Month_Transaction month_transaction = RecurringData[i]; 
+        if (month_transaction.check_recurring()){ 
+            addTransaction(
+                month_transaction.wallet_id, month_transaction.category_id, month_transaction.amount, 
+                month_transaction.nextday, month_transaction.note, month_transaction.type
+            ); 
+        }
+    }
 }
 
 TransactionManager::~TransactionManager(){ 
