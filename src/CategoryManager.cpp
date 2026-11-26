@@ -47,7 +47,14 @@ bool CategoryManager::addCategory(const string& name, const int type) {
     return true;
 }
 
-
+double CategoryManager::getCategoryBalance(const string &category_id, const int type){
+    int index = findIndex(category_id, type);
+    auto& list = (type == 0) ? EXPcategories : INCcategories;
+    if (index == -1) return -1;
+    else {
+        return list[index].amount;
+    }
+}
 
 bool CategoryManager::deleteCategory(const string& id, const int type) {
     int index = findIndex(id, type);

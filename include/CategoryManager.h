@@ -10,13 +10,14 @@ public:
     string name;
     int type;
     double amount;
-    
+
     Category() : id(""), name(""), amount(0), type(0) {}
 
     // amount có giá trị mặc định = 0
     Category(const string& id, const string& name, int type, double amount = 0)
         : id(id), name(name), amount(amount), type(type) {}
 
+ 
 };
 
 class CategoryManager {
@@ -30,6 +31,7 @@ public:
     CategoryManager();
 
     bool isDuplicateID(const string& id, int type);
+    double getCategoryBalance(const string &category_id, const int type);
 
     void generate_ID(const string& name, Category &s);
     int findIndex(const string& id, int type);
