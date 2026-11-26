@@ -3,6 +3,7 @@
 #include <string>
 #include "utils.h" 
 #include <iostream>
+#include "BinaryIO.h"
 using namespace std; 
 
 class Wallet {
@@ -10,6 +11,8 @@ public:
     string name; 
     double balance = 0.0; 
     string id;
+    void saveBinary(ofstream& Out) const; // having const because BinaryIO::write need const val 
+    bool loadBinary(ifstream& In); // with class and struct
 };
 class WalletManager { 
 private:
@@ -20,6 +23,8 @@ private:
     string generateID();
 public:
     WalletManager();
+
+    ~WalletManager(); 
 
     // Add a new wallet
     bool addWallet(const string& name, const double balance);

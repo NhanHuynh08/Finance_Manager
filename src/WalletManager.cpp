@@ -1,11 +1,27 @@
 #include "include/WalletManager.h" 
+
+void Wallet::saveBinary(ofstream& Out) const { 
+    BinaryIO::write(Out, name); 
+    BinaryIO::write(Out, balance); 
+    BinaryIO::write(Out, id); 
+} 
+
+bool Wallet::loadBinary(ifstream& In){ // auto go into Wallet
+    return (BinaryIO::read(In, name) && BinaryIO::read(In, balance) && BinaryIO::read(In,id)); 
+}
+
 bool WalletManager::loadWallets(){  // picking information from data/Wallet.bin 
     // loading with parameter filePath, and DynamicArray<Wallet> WalletData
-    return true;
+    ifstream Load(filePath, ios::binary); 
+    if (!Load) return false; 
+    return BinaryIO::read(Load, WalletData); 
 }
 
 bool WalletManager::saveWallets(){ // saving information to data/Wallet.bon (we will truncate <overwrite>)
     // saving with parameter filePath, and DynamicArray<Wallet> WalletData
+    ofstream Save(filePath, ios::binary); 
+    if (!Save) return false; 
+    BinaryIO::write(Save, WalletData); 
     return true;
 }
 
@@ -14,8 +30,11 @@ WalletManager::WalletManager() { // load data to WalletManager each call (run ap
     if (!load || WalletData.size() == 0){ 
         addWallet("MB Bank", 1000000);  // auto having this pointer 
         addWallet("Physical wallet", 500000);  
-        saveWallets();
     }
+}
+
+WalletManager::~WalletManager(){ 
+    saveWallets(); 
 }
 
 string WalletManager::generateID(){ 
@@ -41,8 +60,6 @@ bool WalletManager::addWallet(const string& name, const double balance){
     w.id = this->generateID(); 
     w.balance = balance; 
     WalletData.push_back(w); 
-    // save data 
-    saveWallets();  // auto having this (WalletManager) pointer
     return true; 
 }
 
@@ -50,8 +67,7 @@ bool WalletManager::addWallet(const string& name, const double balance){
 bool WalletManager::deleteWallet(const string& id){ 
     for (int i = 0; i < WalletData.size(); i++){ 
         if (id == WalletData[i].id){ 
-            WalletData.removeAt(i); 
-            saveWallets(); 
+            WalletData.removeAt(i);  
             return true; 
         }
     }
@@ -63,7 +79,6 @@ bool WalletManager::renameWallet(const string& id, const string& newName){ // ad
     for (int i = 0; i < WalletData.size(); i++){ 
         if (id == WalletData[i].id){ 
             WalletData[i].name = newName; 
-            saveWallets(); 
             return true; 
         }
     }
@@ -75,7 +90,6 @@ bool WalletManager::updateBalance(const string& wallet_id, const double amount){
         if (wallet_id == WalletData[i].id){ 
             // balance > 0; 
             WalletData[i].balance = amount; 
-            saveWallets(); 
             return true; 
         }
     }
@@ -96,7 +110,7 @@ double WalletManager::getBalance(const string& wallet_id) {
 
 // Query all wallets
 bool WalletManager::getAllWallet(DynamicArray<Wallet>& wallets){ 
-    // clear
+    wallets.clear(); 
     for (int i = 0; i < WalletData.size(); i++){ 
         wallets.push_back(WalletData[i]); 
     }

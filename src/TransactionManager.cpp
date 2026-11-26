@@ -3,27 +3,27 @@
 
 bool TransactionManager::addTransaction(const string& wallet_id, const string& category_id, const double& amount,
                                         const Date& date, const string& note, const int type) {
-    if( amount<=0  || ( type !=0&& type!=1) || (type==0 && WM.getBalance(wallet_id)-amount<0)){
+    if (amount <= 0 || ( type != 0 && type != 1) || (type == 0 && WM.getBalance(wallet_id) - amount < 0)){
         return false;
     }
     Transaction ts;
     if(type==1){
-        ts.id="IN"+to_string(inCount);
+        ts.id="IN" + to_string(inCount);
         inCount++;
     }
     else{
-        ts.id="EX"+to_string(exCount);
+        ts.id="EX" + to_string(exCount);
         exCount++;
     }
-    ts.wallet_id=wallet_id;
-    ts.category_id=category_id;
-    ts.amount=amount;
-    ts.date=date;
-    ts.note=note;
-    ts.type=type;
+    ts.wallet_id = wallet_id;
+    ts.category_id = category_id;
+    ts.amount = amount;
+    ts.date = date;
+    ts.note = note;
+    ts.type = type;
     TransactionData.push_back(ts);
 
-    double total= (type==1)?(WM.getBalance(wallet_id)+amount):(WM.getBalance(wallet_id)-amount);
+    double total= (type==1)?(WM.getBalance(wallet_id) + amount):(WM.getBalance(wallet_id) - amount);
     
     return WM.updateBalance(wallet_id,total)
           &&CM.updateCategory(wallet_id,amount,type);
@@ -33,8 +33,8 @@ bool TransactionManager::addTransaction(const string& wallet_id, const string& c
 bool TransactionManager::getAllTransaction(DynamicArray<Transaction>& Transactions, int type){
     //Transactions.clear();
 
-    for (int i=0; i<TransactionData.size();++i){
-        if(TransactionData[i].type==type){
+    for (int i = 0; i < TransactionData.size(); ++i){
+        if(TransactionData[i].type == type){
             Transactions.push_back(TransactionData[i]);
         }
     }
