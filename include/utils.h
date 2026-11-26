@@ -2,7 +2,8 @@
 #include <cassert>
 #include <string>
 #include <iostream>
-struct Date { 
+#include <fstream>
+struct Date {  // all function in struct is inline 
     int day=1;
     int month=1;
     int year=1;
@@ -10,6 +11,19 @@ struct Date {
     //Date(int d, int m, int y) : day(d), month(m), year(y) {}
     void displayDate() {
         std::cout << day << '-' << month << '-' << year;
+    }
+    void saveBinary(std::ofstream& Out) const { // tránh dùng # include "BinaryIO.h" --> gây circular include
+        Out.write(reinterpret_cast<const char*>(&day), sizeof(int)); 
+        Out.write(reinterpret_cast<const char*>(&month), sizeof(int)); 
+        Out.write(reinterpret_cast<const char*>(&year), sizeof(int)); 
+    } 
+
+    bool loadBinary(std::ifstream& In){ 
+        return (
+            In.read(reinterpret_cast<char*>(&day), sizeof(int)) && 
+            In.read(reinterpret_cast<char*>(&month), sizeof(int)) && 
+            In.read(reinterpret_cast<char*>(&year), sizeof(int))
+        ); 
     }
 }; 
 //Tran Tra Khoi Nguyen

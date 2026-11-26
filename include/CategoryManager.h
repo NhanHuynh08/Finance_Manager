@@ -17,7 +17,7 @@ public:
 
     // amount có giá trị mặc định = 0
     Category(const string& id, const string& name, int type, double amount = 0)
-        : id(id), name(name), amount(amount), type(type) {}
+        : id(id), name(name), type(type), amount(amount) {}
     void saveBinary(ofstream& Out) const; // because write work with const value
     bool loadBinary(ifstream& In); 
 };

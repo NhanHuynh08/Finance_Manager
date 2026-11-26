@@ -68,7 +68,7 @@ void ConsoleUI::addTransaction(int type) {
     std::cout << std::string(width, '-') << '\n';
     std::cout << "Select a category: "; 
     while (true) {
-        if (std::cin >> choice && choice<=wallet_list.size() && choice>0) {
+        if (std::cin >> choice && choice<=category_list.size() && choice>0) {
             break;
         }
         else std::cout << "Invalid input, please retry: ";

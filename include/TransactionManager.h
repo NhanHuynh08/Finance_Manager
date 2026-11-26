@@ -15,21 +15,24 @@ public:
     Date date;
     string note;
     int type;
-    Transaction(){}
+    void saveBinary(ofstream& Out) const ; 
+    bool loadBinary(ifstream& In); 
 };
 class TransactionManager {
 private:
+    string filePath = "data/Transaction.bin";
     int inCount;
     int exCount;
     bool accessDate();
     bool saveDate();
     DynamicArray<Transaction> TransactionData;
-
     //bool accessData();
+    bool loadTransaction(); 
+    bool saveTransaction(); 
 public:
-    TransactionManager() {}
+    TransactionManager(); 
     // Add a new transaction (update wallet, write log of transaction)
-    ~TransactionManager(){}; 
+    ~TransactionManager(); 
     bool addTransaction(const string& wallet_id, const string& category_id, const double& amount, const Date& date, const string& note, const int type);
 
     // Query all transactions (store results in variable transactions)
