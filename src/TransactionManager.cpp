@@ -1,6 +1,28 @@
 #include "include/TransactionManager.h"
 // 1:INCOME 0 EXPENSE
 
+void Month_Transaction::saveBinary(ofstream& Out) const { 
+    BinaryIO::write(Out, begin); 
+    BinaryIO::write(Out, end); 
+    BinaryIO::write(Out, wallet_id); 
+    BinaryIO::write(Out, category_id); 
+    BinaryIO::write(Out, amount); 
+    BinaryIO::write(Out, note); 
+    BinaryIO::write(Out, type); 
+} 
+
+bool Month_Transaction::loadBinary(ifstream& In){ // auto go into Wallet
+    return (
+        BinaryIO::read(In, begin) && 
+        BinaryIO::read(In, end) && 
+        BinaryIO::read(In, wallet_id) && 
+        BinaryIO::read(In, category_id) && 
+        BinaryIO::read(In, amount) && 
+        BinaryIO::read(In, note) && 
+        BinaryIO::read(In, type)
+    ); 
+}
+
 void Transaction::saveBinary(ofstream& Out) const { 
     BinaryIO::write(Out, id); 
     BinaryIO::write(Out, wallet_id); 
@@ -8,6 +30,7 @@ void Transaction::saveBinary(ofstream& Out) const {
     BinaryIO::write(Out, amount); 
     BinaryIO::write(Out, date); // will write about save class of Date in utils.h
     BinaryIO::write(Out, note); 
+    BinaryIO::write(Out, type); 
 } 
 
 bool Transaction::loadBinary(ifstream& In){ // auto go into Wallet
@@ -17,31 +40,35 @@ bool Transaction::loadBinary(ifstream& In){ // auto go into Wallet
         BinaryIO::read(In, category_id) && 
         BinaryIO::read(In, amount) && 
         BinaryIO::read(In, date) && 
-        BinaryIO::read(In, note)
+        BinaryIO::read(In, note) && 
+        BinaryIO::read(In, type)
     ); 
 }
 
-bool TransactionManager::loadTransaction(){  // picking information from data/Wallet.bin 
+bool TransactionManager::loadTransactionManager(){  // picking information from data/Wallet.bin 
     // loading with parameter filePath, and DynamicArray<Wallet> WalletData
     ifstream Load(filePath, ios::binary); 
     if (!Load) return false; 
-    return BinaryIO::read(Load, TransactionData); 
+    return (BinaryIO::read(Load, TransactionData) && BinaryIO::read(Load, RecurringData)); 
 }
 
-bool TransactionManager::saveTransaction(){ // saving information to data/Wallet.bon (we will truncate <overwrite>)
+bool TransactionManager::saveTransactionManager(){ // saving information to data/Wallet.bon (we will truncate <overwrite>)
     // saving with parameter filePath, and DynamicArray<Wallet> WalletData
     ofstream Save(filePath, ios::binary); 
     if (!Save) return false; 
     BinaryIO::write(Save, TransactionData); 
+    BinaryIO::write(Save, RecurringData); 
     return true;
 }
 
 TransactionManager::TransactionManager() { // load data to WalletManager each call (run app)
-    loadTransaction(); 
+    loadTransactionManager(); 
+    // check whether it could add or not 
+    
 }
 
 TransactionManager::~TransactionManager(){ 
-    saveTransaction(); 
+    saveTransactionManager(); 
 }
 
 

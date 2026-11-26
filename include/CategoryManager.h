@@ -13,7 +13,7 @@ public:
     int type;
     double amount;
     
-    Category() : id(""), name(""), amount(0), type(0) {}
+    Category() : id(""), name(""), type(0), amount(0) {}
 
     // amount có giá trị mặc định = 0
     Category(const string& id, const string& name, int type, double amount = 0)

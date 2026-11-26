@@ -6,6 +6,19 @@
 #include "WalletManager.h"
 //type 0: expense
 //type 1: income
+
+class Month_Transaction{
+public: // should be public for simplify 
+    Date begin, end; 
+    string wallet_id; 
+    string category_id; 
+    double amount; 
+    string note; 
+    int type; 
+    void saveBinary(ofstream& Out) const; 
+    bool loadBinary(ifstream& In); 
+};
+
 class Transaction {
 public:
     string id;
@@ -25,10 +38,12 @@ private:
     int exCount;
     bool accessDate();
     bool saveDate();
-    DynamicArray<Transaction> TransactionData;
+    DynamicArray<Transaction> TransactionData; // history of transactions 
+    DynamicArray<Month_Transaction> RecurringData; // reminder note for monthly basis transaction
+    // save or load TransactionDate and then RecurringData
     //bool accessData();
-    bool loadTransaction(); 
-    bool saveTransaction(); 
+    bool loadTransactionManager(); 
+    bool saveTransactionManager(); 
 public:
     TransactionManager(); 
     // Add a new transaction (update wallet, write log of transaction)
