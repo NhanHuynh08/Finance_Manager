@@ -29,7 +29,7 @@ private:
 public:
     TransactionManager() {}
     // Add a new transaction (update wallet, write log of transaction)
-    ~TransactionManager(); 
+    ~TransactionManager(){}; 
     bool addTransaction(const string& wallet_id, const string& category_id, const double& amount, const Date& date, const string& note, const int type);
 
     // Query all transactions (store results in variable transactions)

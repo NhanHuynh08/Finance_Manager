@@ -26,7 +26,7 @@ bool TransactionManager::addTransaction(const string& wallet_id, const string& c
     double total= (type==1)?(WM.getBalance(wallet_id) + amount):(WM.getBalance(wallet_id) - amount);
     
     return WM.updateBalance(wallet_id,total)
-          &&CM.updateCategory(wallet_id,amount,type);
+          &&CM.updateCategory(category_id,amount,type);
 } 
 
 // Type : 1:INCOME 0:EXPENSE     

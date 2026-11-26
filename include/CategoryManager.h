@@ -2,6 +2,8 @@
 #pragma once
 #include <string>
 #include "utils.h"
+#include <fstream>
+#include "BinaryIO.h"
 using namespace std;
 
 class Category {
@@ -16,7 +18,8 @@ public:
     // amount có giá trị mặc định = 0
     Category(const string& id, const string& name, int type, double amount = 0)
         : id(id), name(name), amount(amount), type(type) {}
-
+    void saveBinary(ofstream& Out) const; // because write work with const value
+    bool loadBinary(ifstream& In); 
 };
 
 class CategoryManager {
@@ -26,8 +29,13 @@ private:  // Nay data nen private
     string generateID(int type);
     DynamicArray<Category> INCcategories;
     DynamicArray<Category> EXPcategories;
+    string filePath = "data/Category.bin"; 
+    bool loadCategory();  // save INCcategories first
+    bool saveCategory(); 
 public:
     CategoryManager();
+
+    ~CategoryManager(); 
 
     bool isDuplicateID(const string& id, int type);
 

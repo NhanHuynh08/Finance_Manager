@@ -1,15 +1,47 @@
 #include "include/CategoryManager.h"
 #include "include/utils.h"
 
+void Category::saveBinary(ofstream& Out) const { 
+    BinaryIO::write(Out, id); 
+    BinaryIO::write(Out, name); 
+    BinaryIO::write(Out, type); 
+    BinaryIO::write(Out, amount); 
+}
+
+bool Category::loadBinary(ifstream& In){ 
+    return (BinaryIO::read(In, id) && BinaryIO::read(In, name) && BinaryIO::read(In, type) && BinaryIO::read(In, amount));
+}
+
+bool CategoryManager::loadCategory(){ 
+    ifstream In(filePath, ios::binary); 
+    if (!In) return false; 
+    return (BinaryIO::read(In, INCcategories) && BinaryIO::read(In, EXPcategories)); 
+}
+
+bool CategoryManager::saveCategory(){
+    ofstream Out(filePath, ios::binary); 
+    if (!Out) return false; 
+    BinaryIO::write(Out, INCcategories); 
+    BinaryIO::write(Out, EXPcategories); // read will be bool type 
+    return true; 
+}
+
 CategoryManager::CategoryManager() { // load data to WalletManager each call (run app)
-    addCategory("Food & Drink", 0);
-    addCategory("Housing", 0);
-    addCategory("Transportation", 0);
-    addCategory("Healthcare", 0);
-    addCategory("Lifestyle & Entertainment", 0);
-    addCategory("Salary Wage", 1);
-    addCategory("Passive Income", 1);
-    addCategory("Part-time Job", 1);
+    bool load = loadCategory(); // auto having CategoryManager
+    if (!load || (INCcategories.empty() && EXPcategories.empty())){
+        addCategory("Food & Drink", 0);
+        addCategory("Housing", 0);
+        addCategory("Transportation", 0);
+        addCategory("Healthcare", 0);
+        addCategory("Lifestyle & Entertainment", 0);
+        addCategory("Salary Wage", 1);
+        addCategory("Passive Income", 1);
+        addCategory("Part-time Job", 1);
+    }
+}
+
+CategoryManager::~CategoryManager(){
+    saveCategory();
 }
 
 string CategoryManager::generateID(int type) {
