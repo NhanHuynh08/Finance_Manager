@@ -84,7 +84,7 @@ void ConsoleUI::addTransaction(int type) {
         std::cout << "Added transaction successfully!" << '\n';
     }
     else {
-        std::cout << "Transaction failed, please retry.";
+        std::cout << "Transaction failed, please retry." << '\n';
     }
     int navigation = userChoice(choices);
     switch (navigation) {
